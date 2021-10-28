@@ -1,0 +1,63 @@
+@import './cmps/app-footer';
+@import './cmps/app-header';
+@import './cmps/user-dropdown';
+@import './cmps/login-signup';
+@import './cmps/loader';
+@import './cmps/chat';
+@import './cmps/rooms-filter-forms';
+@import './cmps/create-room';
+
+@import './pages/rooms';
+@import './pages/room';
+@import './pages/landing-page';
+
+@font-face {
+  font-family: angel-raphsody;
+  src: url('../assets/fonts/AngelRhapsodyRegular-ZVGJz.ttf');
+}
+.App {
+  background-color: #282c34;
+  // height: 100vh;
+  min-height: 88.3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // align-items: center;
+  // justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  background-color: #282c34;
+}
+
+button,
+[role='button'] {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+@keyframes show-user-msg {
+  0% {
+    top: -200px;
+  }
+  20% {
+    top: 5%;
+  }
+  80% {
+    top: 5%;
+  }
+  90% {
+    top: -300px;
+  }
+}

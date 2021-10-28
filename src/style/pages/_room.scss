@@ -1,0 +1,88 @@
+.room-container {
+  overflow: hidden;
+  .chat-container {
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(110, 107, 107);
+    height: 70vh;
+    max-height: 70vh;
+    // display: flex;
+    // flex-direction: column;
+    .typing-line {
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 7%;
+      min-height: 50px;
+      max-height: 30%;
+      .chat-btns {
+        color: black;
+        align-items: center;
+        min-height: 100%;
+        display: flex;
+        gap: 3px;
+        background-color: #40d4af;
+        justify-content: space-around;
+        span {
+          margin-bottom: 4px;
+        }
+        img {
+          margin: 3px;
+          margin-left: 6px;
+          background: none;
+          border: none;
+          height: 30px;
+          cursor: pointer;
+        }
+      }
+      form {
+        background-color: whitesmoke;
+        display: flex;
+        width: 100%;
+        textarea {
+          display: flex;
+          outline: none;
+          border: none;
+          background-color: whitesmoke;
+          font-size: 1.2rem;
+          padding: 10px 10px 5px 10px;
+          flex-grow: 1;
+          box-shadow: none;
+          resize: none;
+          overflow: auto;
+          max-height: 200px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+            'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+            'Helvetica Neue', sans-serif;
+        }
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #40d4af;
+          border: none;
+          border-bottom-left-radius: 3em;
+          border-top-left-radius: 3em;
+          box-shadow: rgb(117, 117, 117) -1px 0 0px 2px;
+          cursor: default;
+          &.allowed {
+            cursor: pointer;
+          }
+          img {
+            cursor: default;
+            height: 30px;
+            filter: invert(34%) sepia(40%) saturate(10000%) hue-rotate(182deg)
+              brightness(312%) contrast(20%);
+            &.allowed {
+              cursor: pointer;
+              filter: invert(34%) sepia(40%) saturate(1455%) hue-rotate(182deg)
+                brightness(92%) contrast(75%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

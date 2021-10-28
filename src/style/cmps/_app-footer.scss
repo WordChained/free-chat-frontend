@@ -1,0 +1,13 @@
+.app-footer {
+  height: 50px;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  color: white;
+  background-color: rgba(56, 105, 168, 0.678);
+  padding: 0 20px 0 20px;
+  display: flex;
+  //   justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
