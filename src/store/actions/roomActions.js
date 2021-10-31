@@ -50,13 +50,15 @@ export const setTags = (tags) => {
     }
 }
 
-export const remove = async (roomId) => {
-    try {
-        const removedRoom = await httpService.delete(`room/${roomId}`)
-        return removedRoom
-    } catch (err) {
-        console.log('Error on room service =>', err)
-        throw err;
+export const remove = (roomId) => {
+    return async dispatch => {
+        try {
+            await httpService.delete(`room/${roomId}`)
+            dispatch({ type: 'REMOVE_ROOM', roomId })
+        } catch (err) {
+            console.log('Error on room service =>', err)
+            throw err;
+        }
     }
 
 }

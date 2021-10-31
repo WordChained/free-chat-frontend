@@ -42,6 +42,21 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
                     tags: action.tags
                 }
             }
+        case 'ADD_ROOM':
+            return {
+                ...state,
+                rooms: [...state.rooms, action.newRoom]
+            }
+        case 'UPDATE_ROOM':
+            return {
+                ...state,
+                rooms: state.rooms.map(room => room._id === action.newRoom._id ? action.newRoom : room)
+            }
+        case 'REMOVE_ROOM':
+            return {
+                ...state,
+                rooms: state.rooms.filter(room => room._id !== action.roomId)
+            }
         default:
             return state
     }

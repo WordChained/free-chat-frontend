@@ -25,6 +25,7 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       ? setJustStarred(true)
       : setJustStarred(false);
     msg.likes.includes(currUser._id) ? setJustLike(true) : setJustLike(false);
+    //eslint-disable-next-line
   }, [msg.star, msg.likes]);
 
   const starMessage = () => {

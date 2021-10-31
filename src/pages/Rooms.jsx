@@ -21,7 +21,7 @@ export const Rooms = memo(() => {
   useEffect(() => {
     dispatch(query(filterBy));
     // eslint-disable-next-line
-  }, [filterBy]);
+  }, [filterBy, rooms]);
 
   const onSubmit = (data) => {
     dispatch(setFilterBy(data['search-rooms']));
