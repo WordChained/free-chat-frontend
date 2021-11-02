@@ -3,18 +3,25 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmptyRoom } from '../services/roomService';
 import CreatableSelect from 'react-select/creatable';
+
 import { query, save } from '../store/actions/roomActions';
-export const CreateRoom = ({ exit, room }) => {
+import { getUserById, update } from '../store/actions/userActions';
+
+export const CreateRoom = ({ exit, user, room }) => {
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
+  const { rooms } = useSelector((state) => state.roomModule);
 
   const [open, setOpen] = useState(true);
   const [emptyRoom, setEmptyRoom] = useState(null);
   const [tags, setTags] = useState([]);
   const [restrictions, setRestricitons] = useState([]);
   const [roomImgPreview, setRoomImgPreview] = useState(null);
+  const [currUser, setCurrUser] = useState(null);
+
   useEffect(() => {
     setEmptyRoom(getEmptyRoom());
+    // dispatch(getUserById(user._id));
     //eslint-disable-next-line
   }, []);
 
@@ -28,8 +35,8 @@ export const CreateRoom = ({ exit, room }) => {
   // };
 
   const handleChange = (newValue, actionMeta) => {
-    console.log('new value:', newValue);
-    console.log(`action: ${actionMeta.action}`);
+    // console.log('new value:', newValue);
+    // console.log(`action: ${actionMeta.action}`);
     newValue.map((v) => {
       if (!v.value) return;
       return setTags([...tags, v.value]);
@@ -84,12 +91,12 @@ export const CreateRoom = ({ exit, room }) => {
   }, [roomImgPreview]);
 
   const onSubmit = (data) => {
-    console.log('data:', data);
+    console.log('room:', room);
     const newRoom = {
       name: data['room-name'],
       createdAt: emptyRoom.createdAt,
       imgUrl: data['room-image'],
-      likedByUsers: [emptyRoom.owner._id], //adding the current user automatically to user who like this room
+      likedByUsers: [emptyRoom.owner._id], //adding the current user automatically
       limit: data['room-limit'],
       msgs: [],
       owner: emptyRoom.owner,
@@ -100,11 +107,24 @@ export const CreateRoom = ({ exit, room }) => {
       restrictions,
     };
     reset();
+    if (room) newRoom['_id'] = room._id;
     dispatch(save(newRoom));
+    setTimeout(() => {
+      dispatch(query());
+    }, 1000);
+    setCurrUser(JSON.parse(JSON.stringify(user)));
     closeWindow();
-    console.log('newRoom:', newRoom);
-    dispatch(query());
   };
+  useEffect(() => {
+    if (!currUser || !rooms[rooms.length - 1]._id) return;
+    currUser.likedRooms = [...currUser.likedRooms, rooms[rooms.length - 1]._id];
+    dispatch(update(currUser));
+    dispatch(getUserById(user._id));
+    dispatch(query());
+    console.log('rooms.length', rooms.length);
+    //eslint-disable-next-line
+  }, [rooms.length]);
+
   const readImg = () => {
     let reader = new FileReader();
     const preview = document.querySelector('.room-image-preview');

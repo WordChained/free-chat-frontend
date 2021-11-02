@@ -16,10 +16,6 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
   const [justLiked, setJustLike] = useState(null);
   const [justStarred, setJustStarred] = useState(null);
 
-  // useEffect(() => {
-  //   console.log('msgs changed! star:', msg.star, 'likes:', msg.likes);
-  //   can activate userMsg here
-  // }, [msg.star, msg.likes]);
   useEffect(() => {
     msg.star.includes(currUser._id)
       ? setJustStarred(true)

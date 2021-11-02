@@ -42,6 +42,16 @@ function App() {
     //eslint-disable-next-line
   }, []);
 
+  // useEffect(() => {
+  //   if (!loggedInUser) {
+  //     dispatch(setReady(false));
+  //     console.log('theres no loggedinuser', loggedInUser);
+  //   } else {
+  //     dispatch(setReady(true));
+  //     console.log('theres a loggedinuser');
+  //   }
+  // }, [loggedInUser, guestUser]);
+
   const PrivateRoute = (props) => {
     // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
     return getLoggedinUser() ? (

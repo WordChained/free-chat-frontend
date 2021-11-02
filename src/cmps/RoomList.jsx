@@ -40,7 +40,13 @@ export const RoomList = ({ rooms }) => {
           })}
         </tbody>
       </table>
-      {showRoomEdit && <CreateRoom exit={setShowRoomEdit} room={roomToEdit} />}
+      {showRoomEdit && (
+        <CreateRoom
+          exit={setShowRoomEdit}
+          user={getLoggedinUser()}
+          room={roomToEdit}
+        />
+      )}
     </div>
   );
 };
