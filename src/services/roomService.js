@@ -87,6 +87,17 @@ export const getEmptyRoom = () => {
     }
     return room
 }
+export const getEmptyPrivateRoom = () => {
+    const privateRoom = {
+        // _id: '',
+        topics: [],
+        createdAt: Date.now(),
+        msgs: [],
+        limit: '2',
+        type: 'private'
+    }
+    return privateRoom
+}
 
 // const saveSong = async (song, roomId) => {
 //     try {

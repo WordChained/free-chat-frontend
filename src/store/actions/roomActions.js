@@ -17,6 +17,12 @@ export const setCurrRoom = (room) => {
         dispatch({ type: 'SET_CURR_ROOM', room })
     }
 }
+export const setCurrPrivateRoom = (room) => {
+    return dispatch => {
+        // socketService.emit('room updated', room)
+        dispatch({ type: 'SET_CURR_PRIVATE_ROOM', room })
+    }
+}
 export const setCurrRoomById = (roomId) => {
     return async dispatch => {
         const room = await httpService.get(`room/${roomId}`)
