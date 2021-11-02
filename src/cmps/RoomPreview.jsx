@@ -19,14 +19,12 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   };
 
   const routeToRoom = () => {
-    console.log('route');
     dispatch(setCurrRoom(room));
     history.push(`/rooms/${room._id}`);
   };
 
   const toggleToLiked = () => {
     if (user.likedRooms.includes(room._id)) {
-      console.log('remove');
       user.likedRooms = user.likedRooms.filter((r) => r !== room._id);
       dispatch(update(user));
       dispatch(getUserById(user._id));

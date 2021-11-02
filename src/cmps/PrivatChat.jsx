@@ -42,7 +42,7 @@ export const PrivateChat = memo(() => {
   const [isEmpty, setIsEmpty] = useState(true);
 
   useEffect(() => {
-    socketService.emit('room topic', 'PrivateChat' + getLoggedinUser()._id);
+    // socketService.emit('room topic', 'PrivateChat' + getLoggedinUser()._id);
     if (!users) {
       dispatch(getUsers());
     }

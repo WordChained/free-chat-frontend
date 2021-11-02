@@ -26,7 +26,7 @@ function createSocketService() {
     let socket = null;
     const socketService = {
         async setup() {
-            socket = io(baseUrl, { withCredentials: true, });
+            socket = io.connect(baseUrl, { withCredentials: true, });
         },
         on(eventName, cb) {
             socket.on(eventName, cb)
@@ -51,7 +51,7 @@ function createSocketService() {
     return socketService
 }
 
-// eslint-disable-next-line
+
 // function createDummySocketService() {
 //   var listenersMap = {}
 //   const socketService = {

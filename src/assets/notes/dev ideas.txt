@@ -3,7 +3,7 @@ UI/UX:
 - redesign pages/cmps, including:
     * rooms: change table appearance to something modern and smooth.
     * room: maybe add a place for ads?
-    * chat: scrollbar!
+    * chat: change scrollbar!
     * header: burger btn under 700px. logo change?
 - text area (chat input) send on enter key and area expends on added lines instead of scrolling
 

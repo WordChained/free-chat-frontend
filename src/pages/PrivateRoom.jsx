@@ -23,6 +23,7 @@ export const PrivateRoom = () => {
     const privateRoom = getEmptyPrivateRoom();
     privateRoom.topics = topics;
     dispatch(setCurrPrivateRoom(privateRoom));
+    //eslint-disable-next-line
   }, []);
 
   if (!currPrivateRoom)

@@ -1,11 +1,11 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 
 // import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 // import makeAnimated from 'react-select/animated';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { socketService } from '../services/socketService';
+// import { socketService } from '../services/socketService';
 import { useDispatch } from 'react-redux';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { getEmptyPrivateRoom } from '../services/roomService';

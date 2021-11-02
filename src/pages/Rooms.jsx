@@ -14,7 +14,6 @@ export const Rooms = memo(() => {
   const { rooms, filterBy, filteredRooms } = useSelector(
     (state) => state.roomModule
   );
-  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
