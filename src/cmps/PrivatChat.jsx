@@ -12,8 +12,8 @@ import cogwheel from '../assets/imgs/setting.png';
 import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
 import send from '../assets/imgs/send.png';
-import edit from '../assets/imgs/edit.png';
-import like2 from '../assets/imgs/like2.png';
+// import edit from '../assets/imgs/edit.png';
+// import like2 from '../assets/imgs/like2.png';
 
 //user images
 import maleUser from '../assets/imgs/tattoo-male.png';
@@ -25,7 +25,7 @@ import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
 
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
-import { MsgEditOptions } from './MsgEditOptions';
+// import { MsgEditOptions } from './MsgEditOptions';
 
 export const PrivateChat = memo(() => {
   const { register, handleSubmit, reset } = useForm();

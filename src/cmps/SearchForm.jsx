@@ -34,6 +34,7 @@ export const SearchForm = () => {
     //if its topics and there are no topics, dont search
     if (showTopics && !topics.length) {
       console.log('Please pick at least one topic');
+      alert('Please pick at least one topic');
       //need to add user message here
       return;
     }
@@ -88,6 +89,7 @@ export const SearchForm = () => {
             isMulti
             options={options}
             onChange={handleChange}
+            placeholder="Select a topic or add your own.."
             // components={animatedComponents}
           />
         )}
