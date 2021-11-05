@@ -1,23 +1,12 @@
 import io from 'socket.io-client'
-// import { httpService } from './http-service'
-
-// export const SOCKET_EMIT_USER_WATCH = 'user-watch';
-// export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
-// export const SOCKET_EVENT_REVIEW_ADDED = 'review-added';
-// export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '//free-chat-frontend.herokuapp.com' : '//localhost:3000'
+const baseUrl = (process.env.NODE_ENV === 'production') ? '//free-chat-frontend.herokuapp.com' : '//localhost:3030'
+//free-chat-frontend.herokuapp.com
 // "homepage": "https://free-chat-1.herokuapp.com",
 // "homepage": "https://free-chat-frontend.herokuapp.com",
 export const socketService = createSocketService()
-// window.socketService = socketService
 
-// export const socketService = createDummySocketService()
-
-// window.socketService = socketService
-
-// var socketIsReady = false;
 
 socketService.setup()
 
@@ -26,7 +15,7 @@ function createSocketService() {
     let socket = null;
     const socketService = {
         async setup() {
-            socket = io.connect(baseUrl, { withCredentials: true, });
+            socket = io(baseUrl, { withCredentials: true, });
         },
         on(eventName, cb) {
             socket.on(eventName, cb)
@@ -39,6 +28,11 @@ function createSocketService() {
         emit(eventName, data) {
             // console.log('emit', socket);
             socket.emit(eventName, data)
+            // socket.on(eventName, data)
+        },
+        once(eventName, data) {
+            // console.log('emit', socket);
+            socket.once(eventName, data)
             // socket.on(eventName, data)
         },
         // broadcast() {

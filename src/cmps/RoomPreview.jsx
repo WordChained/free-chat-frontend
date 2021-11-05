@@ -8,6 +8,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrRoom, remove, query } from '../store/actions/roomActions';
 import { update, getUserById } from '../store/actions/userActions';
+
+import { socketService } from '../services/socketService';
+
 export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -21,6 +24,8 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   const routeToRoom = () => {
     dispatch(setCurrRoom(room));
     history.push(`/rooms/${room._id}`);
+    socketService.emit('room topic', room._id);
+    socketService.emit('check-num-of-users', room._id);
   };
 
   const toggleToLiked = () => {

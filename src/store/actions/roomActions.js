@@ -17,24 +17,27 @@ export const setCurrRoom = (room) => {
         dispatch({ type: 'SET_CURR_ROOM', room })
     }
 }
+export const setCurrRoomById = (roomId) => {
+    return async dispatch => {
+        try {
+            const room = await httpService.get(`room/${roomId}`)
+            // socketService.emit('room updated', room)
+            dispatch({ type: 'SET_CURR_ROOM', room })
+        } catch (err) {
+            console.log('setCurrRoomById error:', err);
+        }
+    }
+}
 export const setCurrPrivateRoom = (room) => {
     return dispatch => {
         // socketService.emit('room updated', room)
         dispatch({ type: 'SET_CURR_PRIVATE_ROOM', room })
     }
 }
-export const setCurrRoomById = (roomId) => {
-    return async dispatch => {
-        const room = await httpService.get(`room/${roomId}`)
-        // socketService.emit('room updated', room)
-        dispatch({ type: 'SET_CURR_ROOM', room })
-    }
-}
 
 export const getRoomById = (roomId) => {
     return async dispatch => {
         try {
-
             const room = await httpService.get(`room/${roomId}`)
             dispatch({ type: 'GET_ROOM', room })
         } catch (err) {
@@ -52,6 +55,11 @@ export const setFilterBy = (filterBy) => {
 export const setTags = (tags) => {
     return dispatch => {
         dispatch({ type: 'SET_TAGS', tags })
+    }
+}
+export const setNumOfUsers = (num) => {
+    return dispatch => {
+        dispatch({ type: 'SET_NUM_OF_USERS', num })
     }
 }
 

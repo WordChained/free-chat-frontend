@@ -4,24 +4,51 @@ import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 import Select from 'react-select';
 import create from '../assets/imgs/create.png';
-
-import { query, setFilterBy, setTags } from '../store/actions/roomActions';
+// import { socketService } from '../services/socketService';
+import {
+  query,
+  setFilterBy,
+  setTags,
+  setNumOfUsers,
+  setCurrRoom,
+} from '../store/actions/roomActions';
 
 import { RoomList } from '../cmps/RoomList';
 import { CreateRoom } from '../cmps/CreateRoom';
 import { getLoggedinUser } from '../store/actions/userActions';
+import { socketService } from '../services/socketService';
+
 export const Rooms = memo(() => {
-  const { rooms, filterBy, filteredRooms } = useSelector(
-    (state) => state.roomModule
-  );
+  const {
+    rooms,
+    filterBy,
+    filteredRooms,
+    // usersInCurrRoom,
+    currRoom,
+  } = useSelector((state) => state.roomModule);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const [usersInRoom, setUsersInRoom] = useState(0);
 
   const [showRoomCreation, setShowRoomCreation] = useState(false);
+
   useEffect(() => {
     dispatch(query(filterBy));
     // eslint-disable-next-line
   }, [filterBy]);
+
+  useEffect(() => {
+    if (currRoom) {
+      socketService.on('users-in-room', (num) => {
+        setUsersInRoom(num);
+        dispatch(setNumOfUsers(num));
+      });
+      socketService.emit('check-num-of-users', currRoom._id);
+      //only making currRoom null now so ill have the room id to send to the sockets
+      dispatch(setCurrRoom(null));
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const onSubmit = (data) => {
     dispatch(setFilterBy(data['search-rooms']));

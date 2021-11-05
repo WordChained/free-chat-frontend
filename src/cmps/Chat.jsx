@@ -46,8 +46,7 @@ export const Chat = memo(() => {
   });
 
   useEffect(() => {
-    const topicToWatch = currRoom.topic + currRoom._id;
-    socketService.emit('room topic', topicToWatch);
+    // socketService.emit('room topic', currRoom._id);
     if (!users) {
       dispatch(getUsers());
     }

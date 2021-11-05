@@ -237,7 +237,6 @@ export const CreateRoom = ({ exit, user, room }) => {
               options={restrictionsOptions}
               onChange={handleChange2}
               placeholder="Select restrictions"
-              defaultValue="none"
               defaultValue={
                 room && room.restrictions.length
                   ? room.restrictions.map((restriction) => {
@@ -246,7 +245,7 @@ export const CreateRoom = ({ exit, user, room }) => {
                         label: restriction,
                       };
                     })
-                  : ''
+                  : 'none'
               }
               // components={animatedComponents}
             />
