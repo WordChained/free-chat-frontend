@@ -1,37 +1,26 @@
 UI/UX:
-- change 'back' buttton
 - redesign pages/cmps, including:
     * rooms: change table appearance to something modern and smooth.
     * room: maybe add a place for ads?
-    * chat: change scrollbar!
     * header: burger btn under 700px. logo change?
-- text area (chat input) send on enter key and area expends on added lines instead of scrolling
+- text area (chat input) area expends on added lines instead of scrolling
 
 CRUD:
-- add 'removeMsg' in the back and in the front
-- add edit removeMsg
-- add room
-- remove room
-- edit room
+- add editMsg
 
 Features:
-- add smilies,images,videos, player
-- add private chat and omegle like chat
-- count logged in users
-- count room users and limit it (include rooms with no limits)
+- add images,videos, audio !!!!!!!!!!!!!
+- add private chat and omegle like chat !!!!!!!!!!!!
+- limit entrance by restrictions !!!!!!!!!!!!!!
+- limit users to room - maybe get rid of this??????????
 - add settings in chat, including:
-    * edit background image/color
-    * dark-mode/light-mode
-    * font size/family/color
-    * dont show videos/images on defualt? - not sure how to do that
+    ?????????* font size/family/color
+    ????????? * dont show videos/images on defualt? - not sure how to do that
 - add featured rooms?
 - add share button (social media links)
 - 'share my social media' option. user option to add your social media and send links immediatly
-- block spam!
-- likes and stars to msgs (important msgs). need to limit to one like!
-    DONE: detection of liked/starred msgs
-    TODO: add the option to like and star (through mongo update and WS update as well) ***NEXT***
+- block spam! !!!!!!!!!!!
 
 Compatibility:
-- scales of everything to fit on all sizes
-- turn hovers off
+- scales of everything to fit on all sizes !!!!!
+- turn hovers off !!!!!!!
