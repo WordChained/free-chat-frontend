@@ -62,7 +62,7 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
         case 'UPDATE_ROOM':
             return {
                 ...state,
-                rooms: state.rooms.map(room => room._id === action.newRoom._id ? action.newRoom : room)
+                rooms: state.rooms.map(room => room._id === action.updatedRoom._id ? action.updatedRoom : room)
             }
         case 'REMOVE_ROOM':
             return {

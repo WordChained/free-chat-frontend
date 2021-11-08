@@ -1,4 +1,4 @@
-import { memo, useEffect, useState, useRef } from 'react';
+import { memo, useEffect, useState, useRef, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,6 +21,8 @@ import maleUser from '../assets/imgs/tattoo-male.png';
 import femaleUser from '../assets/imgs/tattoo-female.png';
 import guestImg from '../assets/imgs/guest.png';
 
+import defaultWP from '../assets/chat-backgrounds/default-background.jpg';
+
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
@@ -31,6 +33,7 @@ import { MsgEditOptions } from './MsgEditOptions';
 import { ChatSettings } from './ChatSettings';
 import { EmojiWindow } from './EmojiWindow';
 import { AttachWindow } from './AttachWindow';
+import { BackgroundPicker } from './BackgroundPicker';
 
 export const Chat = memo(() => {
   const { register, handleSubmit, reset } = useForm();
@@ -48,6 +51,7 @@ export const Chat = memo(() => {
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
   const [isEmojiWindownOpen, setIsEmojiWindownOpen] = useState(false);
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
+  const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
   const [currMsgToEdit, setCurrMsgToEdit] = useState({
     edit: false,
     msgId: null,
@@ -97,6 +101,10 @@ export const Chat = memo(() => {
     elInput.current.value = elInput.current.value + emoji;
   };
 
+  const msgsContainer = useRef();
+  const onChangeBackgroundImg = (image) => {
+    console.log(msgsContainer.current);
+  };
   const toggleCorrectWindow = (name) => {
     switch (name) {
       case 'clear':
@@ -219,157 +227,176 @@ export const Chat = memo(() => {
       </div>
     );
   return (
-    <div className="chat-container">
-      {currChatMsgs && (
-        <div
-          className="msgs-container"
-          onClick={() => toggleCorrectWindow('clear')}
-        >
-          <p className="start-of-chat">This is the beggining of the chat!</p>
+    <Fragment>
+      <div className="chat-container">
+        {currChatMsgs && (
+          <div
+            className="msgs-container"
+            onClick={() => toggleCorrectWindow('clear')}
+            ref={msgsContainer}
+            style={{
+              backgroundImage: `url(${
+                currRoom.wallPaper ? currRoom.wallPaper : defaultWP
+              })`,
+            }}
+          >
+            <p className="start-of-chat">This is the beggining of the chat!</p>
 
-          {currChatMsgs.map((msg) => (
-            <div
-              key={msg.id}
-              className={`single-msg ${
-                currUser && currUser._id === msg.uid ? 'sender' : ''
-              }`}
-            >
-              <Palette
-                src={
-                  currUser && getSenderInfo('imgUrl', msg)
-                    ? getSenderInfo('imgUrl', msg)
-                    : msg.name.includes('guest')
-                    ? guestImg
-                    : defaultImg
-                }
-                crossOrigin="anonymous"
-                format="hex"
-                colorCount={4}
-              >
-                {({ data, loading }) => {
-                  if (loading) return <div>🕒</div>;
-                  return (
-                    <img
-                      style={{
-                        backgroundColor: data[data.length / 2],
-                      }}
-                      className="user-img"
-                      src={
-                        currUser && getSenderInfo('imgUrl', msg)
-                          ? getSenderInfo('imgUrl', msg)
-                          : msg.name.includes('guest')
-                          ? guestImg
-                          : defaultImg
-                      }
-                      alt="userImg"
-                    />
-                  );
-                }}
-              </Palette>
-              {/* {isLikedByCurrUser(msg.id)}
-              {isStarredByCurrUser(msg.id)} */}
-              {currMsgToEdit.edit && currMsgToEdit.msgId === msg.id && (
-                <MsgEditOptions
-                  msg={msg}
-                  currUser={currUser}
-                  isLiked={isLikedByCurrUser(msg.id)}
-                  isStarred={isStarredByCurrUser(msg.id)}
-                  room={currRoom}
-                />
-              )}
+            {currChatMsgs.map((msg) => (
               <div
                 key={msg.id}
-                name="single-msg-txt"
-                className={
-                  currUser && currUser._id === msg.uid
-                    ? 'sender'
-                    : currMsgToEdit.edit
-                    ? 'edit'
-                    : ''
-                }
-                style={
-                  msg.star.includes(currUser._id)
-                    ? { boxShadow: 'gold 0 0 5px' }
-                    : { boxShadow: 'none' }
-                }
+                className={`single-msg ${
+                  currUser && currUser._id === msg.uid ? 'sender' : ''
+                }`}
               >
-                <span className="sender-name">
-                  {getSenderInfo('userName', msg)
-                    ? getSenderInfo('userName', msg)
-                    : msg.name}
-                </span>
-                {msg.text}
-                <span className="sent-at">
-                  {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}{' '}
-                  <span className={`msg-status-marks ${sent ? 'sent' : ''}`}>
-                    ✔✔
-                  </span>
-                </span>
-                <img
-                  className="edit-btn"
-                  src={edit}
-                  alt="edit"
-                  onClick={() => changeEditState(msg.id, msg.uid)}
-                />
-                {msg.likes.length ? (
-                  <div className="like-count">
-                    <span>{msg.likes.length}</span>
-                    <img src={like2} alt="heart" />
-                  </div>
-                ) : (
-                  <></>
+                <Palette
+                  src={
+                    currUser && getSenderInfo('imgUrl', msg)
+                      ? getSenderInfo('imgUrl', msg)
+                      : msg.name.includes('guest')
+                      ? guestImg
+                      : defaultImg
+                  }
+                  crossOrigin="anonymous"
+                  format="hex"
+                  colorCount={4}
+                >
+                  {({ data, loading }) => {
+                    if (loading) return <div>🕒</div>;
+                    return (
+                      <img
+                        style={{
+                          backgroundColor: data[data.length / 2],
+                        }}
+                        className="user-img"
+                        src={
+                          currUser && getSenderInfo('imgUrl', msg)
+                            ? getSenderInfo('imgUrl', msg)
+                            : msg.name.includes('guest')
+                            ? guestImg
+                            : defaultImg
+                        }
+                        alt="userImg"
+                      />
+                    );
+                  }}
+                </Palette>
+                {/* {isLikedByCurrUser(msg.id)}
+              {isStarredByCurrUser(msg.id)} */}
+                {currMsgToEdit.edit && currMsgToEdit.msgId === msg.id && (
+                  <MsgEditOptions
+                    msg={msg}
+                    currUser={currUser}
+                    isLiked={isLikedByCurrUser(msg.id)}
+                    isStarred={isStarredByCurrUser(msg.id)}
+                    room={currRoom}
+                  />
                 )}
+                <div
+                  key={msg.id}
+                  name="single-msg-txt"
+                  className={
+                    currUser && currUser._id === msg.uid
+                      ? 'sender'
+                      : currMsgToEdit.edit
+                      ? 'edit'
+                      : ''
+                  }
+                  style={
+                    msg.star.includes(currUser._id)
+                      ? { boxShadow: 'gold 0 0 5px' }
+                      : { boxShadow: 'none' }
+                  }
+                >
+                  <span className="sender-name">
+                    {getSenderInfo('userName', msg)
+                      ? getSenderInfo('userName', msg)
+                      : msg.name}
+                  </span>
+                  {msg.text}
+                  <span className="sent-at">
+                    {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}{' '}
+                    <span className={`msg-status-marks ${sent ? 'sent' : ''}`}>
+                      ✔✔
+                    </span>
+                  </span>
+                  <img
+                    className="edit-btn"
+                    src={edit}
+                    alt="edit"
+                    onClick={() => changeEditState(msg.id, msg.uid)}
+                  />
+                  {msg.likes.length ? (
+                    <div className="like-count">
+                      <span>{msg.likes.length}</span>
+                      <img src={like2} alt="heart" />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-          <AlwaysScrollToBottom msgs={currChatMsgs.length} />
+            ))}
+            <AlwaysScrollToBottom msgs={currChatMsgs.length} />
+          </div>
+        )}
+        <div className="typing-line">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <textarea
+              placeholder="Ctrl + Enter to add a line..."
+              {...register('msg-input')}
+              id="msg-input"
+              type="text"
+              spellCheck="true"
+              autoComplete="off"
+              ref={elInput}
+              className={isEmpty ? '' : 'allowed'}
+              onKeyUp={checkIsEmpty}
+              onKeyDown={checkIsEmpty}
+            />
+            <button type="submit" className={isEmpty ? '' : 'allowed'}>
+              <img className={isEmpty ? '' : 'allowed'} src={send} alt="send" />
+            </button>
+          </form>
+          <div className="chat-btns">
+            <span> | </span>
+            <img
+              src={cogwheel}
+              alt="settings"
+              onClick={() => toggleCorrectWindow('settings')}
+              className={`settings-icon ${isChatSettingsOpen ? 'open' : ''}`}
+            />
+            <img
+              src={attachment}
+              alt="attachment"
+              onClick={() => toggleCorrectWindow('attach')}
+              className={`attach-icon ${isAttachWindowOpen ? 'open' : ''}`}
+            />
+            <img
+              src={isEmojiWindownOpen ? thinking : smiley}
+              alt="smiley"
+              onClick={() => toggleCorrectWindow('emoji')}
+            />
+          </div>
+          {isChatSettingsOpen && (
+            <ChatSettings
+              backgroundPicker={setIsBackgroundPickerOpen}
+              clear={toggleCorrectWindow}
+            />
+          )}
+          {isEmojiWindownOpen && <EmojiWindow addEmoji={addEmoji} />}
+          {isAttachWindowOpen && <AttachWindow />}
         </div>
-      )}
-      <div className="typing-line">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <textarea
-            placeholder="Ctrl + Enter to add a line..."
-            {...register('msg-input')}
-            id="msg-input"
-            type="text"
-            spellCheck="true"
-            autoComplete="off"
-            ref={elInput}
-            className={isEmpty ? '' : 'allowed'}
-            onKeyUp={checkIsEmpty}
-            onKeyDown={checkIsEmpty}
-          />
-          <button type="submit" className={isEmpty ? '' : 'allowed'}>
-            <img className={isEmpty ? '' : 'allowed'} src={send} alt="send" />
-          </button>
-        </form>
-        <div className="chat-btns">
-          <span> | </span>
-          <img
-            src={cogwheel}
-            alt="settings"
-            onClick={() => toggleCorrectWindow('settings')}
-            className={`settings-icon ${isChatSettingsOpen ? 'open' : ''}`}
-          />
-          <img
-            src={attachment}
-            alt="attachment"
-            onClick={() => toggleCorrectWindow('attach')}
-            className={`attach-icon ${isAttachWindowOpen ? 'open' : ''}`}
-          />
-          <img
-            src={isEmojiWindownOpen ? thinking : smiley}
-            alt="smiley"
-            onClick={() => toggleCorrectWindow('emoji')}
-          />
-        </div>
-        {isChatSettingsOpen && <ChatSettings />}
-        {isEmojiWindownOpen && <EmojiWindow addEmoji={addEmoji} />}
-        {isAttachWindowOpen && <AttachWindow />}
       </div>
-    </div>
+      {isBackgroundPickerOpen && (
+        <BackgroundPicker
+          backgroundPicker={setIsBackgroundPickerOpen}
+          room={currRoom}
+        />
+      )}
+    </Fragment>
   );
 });

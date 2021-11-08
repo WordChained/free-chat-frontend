@@ -95,7 +95,6 @@ export const save = (room) => {
         return async dispatch => {
             try {
                 const updatedRoom = await httpService.put(`room/`, room)
-                console.log('updatedRoom', updatedRoom);
                 dispatch({ type: 'UPDATE_ROOM', updatedRoom })
             } catch (err) {
                 console.log('save (update) error:', err);
@@ -104,20 +103,20 @@ export const save = (room) => {
     }
 }
 
-export const getEmptyRoom = () => {
-    const room = {
-        _id: '',
-        name: '',
-        imgUrl: '',
-        description: '',
-        tags: [],
-        createdAt: Date.now(),
-        // createdBy: {},
-        likedByUsers: getRandomIntInclusive(1000, 60000),
-        songs: []
-    }
-    return room
-}
+// export const getEmptyRoom = () => {
+//     const room = {
+//         _id: '',
+//         name: '',
+//         imgUrl: '',
+//         description: '',
+//         tags: [],
+//         createdAt: Date.now(),
+//         // createdBy: {},
+//         likedByUsers: getRandomIntInclusive(1000, 60000),
+//         songs: []
+//     }
+//     return room
+// }
 
 // export const saveSong = async (song, roomId) => {
 //     try {
