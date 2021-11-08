@@ -9,7 +9,6 @@ import {
   query,
   setFilterBy,
   setTags,
-  setNumOfUsers,
   setCurrRoom,
 } from '../store/actions/roomActions';
 
@@ -41,7 +40,6 @@ export const Rooms = memo(() => {
     if (currRoom) {
       socketService.on('users-in-room', (num) => {
         setUsersInRoom(num);
-        dispatch(setNumOfUsers(num));
       });
       socketService.emit('check-num-of-users', currRoom._id);
       //only making currRoom null now so ill have the room id to send to the sockets

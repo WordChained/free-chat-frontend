@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+//icons
 import edit from '../assets/imgs/edit-large.png';
 import removeIcon from '../assets/imgs/remove.png';
 import add from '../assets/imgs/add.png';
+
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrRoom, remove, query } from '../store/actions/roomActions';
@@ -24,7 +26,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   const routeToRoom = () => {
     dispatch(setCurrRoom(room));
     history.push(`/rooms/${room._id}`);
-    socketService.emit('room topic', room._id);
+    socketService.emit('room topic', { topic: room._id, uid: user._id });
     socketService.emit('check-num-of-users', room._id);
   };
 
@@ -54,6 +56,20 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
       dispatch(query());
     }
   };
+
+  const isToday = (timeString) => {
+    const date = new Date(timeString);
+    const currTimeStamp = new Date(Date.now());
+    const sameDay = currTimeStamp.getDate() === date.getDate();
+    const sameMonth = currTimeStamp.getMonth() + 1 === date.getMonth() + 1;
+    const sameYear = currTimeStamp.getFullYear() === date.getFullYear();
+    if (sameDay && sameMonth && sameYear)
+      return date.toLocaleTimeString('he-IL', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    else return date.toLocaleDateString('he-IL');
+  };
   return (
     <Fragment>
       <td className="room-name" onClick={routeToRoom}>
@@ -66,7 +82,11 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
         {room.restrictions.length ? room.restrictions.join(', ') : 'none'}
       </td>
       <td>
-        <span>some date</span>
+        {room.msgs.length > 0 ? (
+          <span>{isToday(room.msgs[room.msgs.length - 1].sentAt)}</span>
+        ) : (
+          <span>Nothing yet!</span>
+        )}
       </td>
       <td className="actions">
         <img src={edit} alt="edit-btn" onClick={editRoom} />

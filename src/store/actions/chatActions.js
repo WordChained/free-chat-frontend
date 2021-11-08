@@ -108,3 +108,25 @@ export const getMsgs = (roomId) => {
 
     }
 }
+
+export const removeMsg = (msgId, roomId) => {
+    return async dispatch => {
+        try {
+            console.log(roomId);
+            await httpService.delete(`room/chat/${roomId}`, { msgId, roomId })
+            dispatch({ type: 'REMOVE_MSG', msgId })
+        } catch (err) {
+            console.log('error in remove msg:', err);
+        }
+    }
+}
+export const editMsg = (msgId, roomId) => {
+    return async dispatch => {
+        try {
+            // await httpService.post(`room/chat/${roomId}`, msgId)
+            // dispatch({ type: 'EDIT_MSG', msgId })
+        } catch (err) {
+            console.log('error in remove msg:', err);
+        }
+    }
+}

@@ -1,0 +1,27 @@
+.chat-settings-container {
+  position: absolute;
+  right: 5px;
+  bottom: 5vh;
+  padding: 0;
+  font-size: 1.2rem;
+  .settings-list {
+    border-radius: 10px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #282c34;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    li {
+      width: 100%;
+      padding: 10px;
+      &:hover {
+        background-color: lighten(#282c34, 5%);
+      }
+    }
+    li:not(:last-child) {
+      border-bottom: ghostwhite 1px solid;
+    }
+  }
+}

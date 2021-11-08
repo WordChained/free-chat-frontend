@@ -24,8 +24,10 @@ import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
 
+// cmps
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 import { MsgEditOptions } from './MsgEditOptions';
+import { ChatSettings } from './ChatSettings';
 
 export const Chat = memo(() => {
   const { register, handleSubmit, reset } = useForm();
@@ -40,6 +42,7 @@ export const Chat = memo(() => {
   const [defaultImg, setDefaultImg] = useState('');
   const [currUser, setCurrUser] = useState(null);
   const [isEmpty, setIsEmpty] = useState(true);
+  const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
   const [currMsgToEdit, setCurrMsgToEdit] = useState({
     edit: false,
     msgId: null,
@@ -154,7 +157,10 @@ export const Chat = memo(() => {
   return (
     <div className="chat-container">
       {currChatMsgs && (
-        <div className="msgs-container">
+        <div
+          className="msgs-container"
+          onClick={() => setIsChatSettingsOpen(false)}
+        >
           <p className="start-of-chat">This is the beggining of the chat!</p>
 
           {currChatMsgs.map((msg) => (
@@ -255,7 +261,7 @@ export const Chat = memo(() => {
               </div>
             </div>
           ))}
-          <AlwaysScrollToBottom />
+          <AlwaysScrollToBottom msgs={currChatMsgs.length} />
         </div>
       )}
       <div className="typing-line">
@@ -276,10 +282,16 @@ export const Chat = memo(() => {
         </form>
         <div className="chat-btns">
           <span> | </span>
-          <img src={cogwheel} alt="settings" />
+          <img
+            src={cogwheel}
+            alt="settings"
+            onClick={() => setIsChatSettingsOpen(!isChatSettingsOpen)}
+            className={`settings-icon ${isChatSettingsOpen ? 'open' : ''}`}
+          />
           <img src={attachment} alt="attachment" />
           <img src={smiley} alt="smiley" />
         </div>
+        {isChatSettingsOpen && <ChatSettings />}
       </div>
     </div>
   );

@@ -57,11 +57,11 @@ export const setTags = (tags) => {
         dispatch({ type: 'SET_TAGS', tags })
     }
 }
-export const setNumOfUsers = (num) => {
-    return dispatch => {
-        dispatch({ type: 'SET_NUM_OF_USERS', num })
-    }
-}
+// export const setNumOfUsers = (num) => {
+//     return dispatch => {
+//         dispatch({ type: 'SET_NUM_OF_USERS', num })
+//     }
+// }
 
 export const remove = (roomId) => {
     return async dispatch => {

@@ -54,13 +54,21 @@ export const chatReducer = (state = INITIAL_STATE, action) => {
                 })
 
             }
-        // case 'UN_LIKE_MSG':
-        //     console.log('like action:', state.currChatMsgs[action.idx]);
-        //     return {
-        //         ...state,
-        //         currChatMsgs: state.currChatMsgs.filter((msg, idx) => { return idx !== action.idx })
+        case 'REMOVE_MSG':
+            //     console.log('like action:', state.currChatMsgs[action.idx]);
+            return {
+                ...state,
+                currChatMsgs: state.currChatMsgs.filter((msg) => msg.id !== action.msgId)
+            }
+        case 'EDIT_MSG':
+            //     console.log('like action:', state.currChatMsgs[action.idx]);
+            return {
+                ...state,
+                // need to change only the specific msg and not all msgs
+                // currChatMsgs: state.currChatMsgs.map((msg) => msg.id === action.msg.id ? action.msg : msg)
 
-        //     }
+
+            }
         default:
             return state
     }

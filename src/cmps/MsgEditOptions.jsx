@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
+
+// icons
 import star from '../assets/imgs/star.png';
 import like from '../assets/imgs/like.png';
+import removeIcon from '../assets/imgs/trash.png';
+import editIcon from '../assets/imgs/edit.png';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   starMsg,
   unStarMsg,
   likeMsg,
   unLikeMsg,
+  removeMsg,
+  editMsg,
 } from '../store/actions/chatActions';
 export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
   const dispatch = useDispatch();
@@ -58,11 +65,18 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       // setJustLike(true);
     }
   };
-  const editMsg = () => {
-    //
+  const onEditMsg = (msgId) => {
+    dispatch(editMsg(msgId, currRoom._id));
   };
-  const removeMsg = () => {
-    //
+  const onRemoveMsg = (msgId) => {
+    if (
+      !window.confirm(
+        'Are you sure you want to perma-delete this awesome message?'
+      )
+    )
+      return;
+    console.log('onRemoveMsg, msgId:', msgId);
+    dispatch(removeMsg(msgId, currRoom._id));
   };
 
   return (
@@ -81,12 +95,19 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       />
       {currUser && currUser._id === msg.uid && (
         <div className="user-edit-options">
-          <button onClick={editMsg} className="edit user-option">
-            Edit
-          </button>
-          <button onClick={removeMsg} className="delete user-option">
-            X
-          </button>
+          {/* <img
+          //will implement later
+            onClick={() => onEditMsg(msg.id)}
+            className="edit user-option"
+            src={editIcon}
+            alt="Edit"
+          /> */}
+          <img
+            onClick={() => onRemoveMsg(msg.id)}
+            className="delete user-option"
+            src={removeIcon}
+            alt="X"
+          />
         </div>
       )}
     </div>

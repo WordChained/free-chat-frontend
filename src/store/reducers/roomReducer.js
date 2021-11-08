@@ -2,7 +2,7 @@ const INITIAL_STATE = {
     rooms: null,
     filteredRooms: null,
     currRoom: null,
-    usersInCurrRoom: null,
+    // usersInCurrRoom: null,
     currPrivateRoom: null,
     filterBy: { topic: '', description: '', tags: [], name: '' },
 
@@ -31,11 +31,11 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currPrivateRoom: action.room
             }
-        case 'SET_NUM_OF_USERS':
-            return {
-                ...state,
-                usersInCurrRoom: action.num
-            }
+        // case 'SET_NUM_OF_USERS':
+        //     return {
+        //         ...state,
+        //         usersInCurrRoom: action.num
+        //     }
         case 'SET_FILTER':
             return {
                 ...state,
