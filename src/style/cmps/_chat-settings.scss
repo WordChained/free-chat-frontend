@@ -1,10 +1,11 @@
 .chat-settings-container {
   position: absolute;
-  right: 5px;
+  right: 1vw;
   bottom: 5vh;
   padding: 0;
   font-size: 1.2rem;
   .settings-list {
+    overflow: hidden;
     border-radius: 10px;
     padding: 0;
     display: flex;

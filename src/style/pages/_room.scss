@@ -116,7 +116,8 @@
         gap: 3px;
         background-color: #40d4af;
         justify-content: space-around;
-        .settings-icon {
+        .settings-icon,
+        .attach-icon {
           &.open {
             filter: invert(100%) sepia(97%) saturate(13%) hue-rotate(237deg)
               brightness(104%) contrast(104%);

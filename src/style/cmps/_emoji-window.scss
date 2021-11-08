@@ -1,0 +1,19 @@
+.emoji-window-container {
+  position: absolute;
+  right: 1vw;
+  bottom: 6vh;
+  .emoji-picker-react {
+    background-color: lighten(#282c34, 15%);
+    input.emoji-search {
+      background-color: lighten(#282c34, 5%);
+      color: white;
+      border: none !important; // this is cause the border is pushing everything down
+      margin-left: unset;
+      padding-right: 30px;
+    }
+    .emoji-group:before {
+      display: flex;
+      background: none;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,6 +11,7 @@ import {
 import cogwheel from '../assets/imgs/setting.png';
 import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
+import thinking from '../assets/imgs/thinking.png';
 import send from '../assets/imgs/send.png';
 import edit from '../assets/imgs/edit.png';
 import like2 from '../assets/imgs/like2.png';
@@ -28,6 +29,8 @@ import { socketService } from '../services/socketService';
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 import { MsgEditOptions } from './MsgEditOptions';
 import { ChatSettings } from './ChatSettings';
+import { EmojiWindow } from './EmojiWindow';
+import { AttachWindow } from './AttachWindow';
 
 export const Chat = memo(() => {
   const { register, handleSubmit, reset } = useForm();
@@ -43,6 +46,8 @@ export const Chat = memo(() => {
   const [currUser, setCurrUser] = useState(null);
   const [isEmpty, setIsEmpty] = useState(true);
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
+  const [isEmojiWindownOpen, setIsEmojiWindownOpen] = useState(false);
+  const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [currMsgToEdit, setCurrMsgToEdit] = useState({
     edit: false,
     msgId: null,
@@ -86,11 +91,69 @@ export const Chat = memo(() => {
     //eslint-disable-next-line
   }, []);
 
+  const elInput = useRef();
+  const addEmoji = (emoji) => {
+    // console.log('value:', elInput.current.value);
+    elInput.current.value = elInput.current.value + emoji;
+  };
+
+  const toggleCorrectWindow = (name) => {
+    switch (name) {
+      case 'clear':
+        setIsAttachWindowOpen(false);
+        setIsChatSettingsOpen(false);
+        setIsEmojiWindownOpen(false);
+        break;
+      case 'attach':
+        if (isAttachWindowOpen) {
+          setIsAttachWindowOpen(false);
+          return;
+        }
+        setIsAttachWindowOpen(true);
+        setIsChatSettingsOpen(false);
+        setIsEmojiWindownOpen(false);
+        break;
+      case 'emoji':
+        if (isEmojiWindownOpen) {
+          setIsEmojiWindownOpen(false);
+          return;
+        }
+        setIsAttachWindowOpen(false);
+        setIsChatSettingsOpen(false);
+        setIsEmojiWindownOpen(true);
+        break;
+      case 'settings':
+        if (isChatSettingsOpen) {
+          setIsChatSettingsOpen(false);
+          return;
+        }
+        setIsAttachWindowOpen(false);
+        setIsChatSettingsOpen(true);
+        setIsEmojiWindownOpen(false);
+        break;
+    }
+  };
+
+  // this makes text area use enter to submit and Ctrl+Enter to go down a line
+  const keyMap = {};
   const checkIsEmpty = (ev) => {
+    const control = 17;
+    const enter = 13;
+    let data = { 'msg-input': ev.target.value };
     if (ev.target.value === '') {
       setIsEmpty(true);
     } else {
       setIsEmpty(false);
+    }
+    if (ev.target.value === '') return;
+    keyMap[ev.keyCode] = ev.type === 'keydown';
+    if (keyMap[control] && keyMap[enter]) {
+      console.log('both!');
+      ev.target.value = ev.target.value + '\n';
+    } else if (keyMap[enter]) {
+      ev.preventDefault();
+      console.log('just enter');
+      handleSubmit(onSubmit(data));
     }
   };
 
@@ -131,6 +194,7 @@ export const Chat = memo(() => {
   };
 
   const onSubmit = (data) => {
+    console.log('data', data);
     if (!data['msg-input']) return;
     // console.log('currUser is the sender...', currUser);
     // console.log('msg-input:', data['msg-input']);
@@ -159,7 +223,7 @@ export const Chat = memo(() => {
       {currChatMsgs && (
         <div
           className="msgs-container"
-          onClick={() => setIsChatSettingsOpen(false)}
+          onClick={() => toggleCorrectWindow('clear')}
         >
           <p className="start-of-chat">This is the beggining of the chat!</p>
 
@@ -267,14 +331,16 @@ export const Chat = memo(() => {
       <div className="typing-line">
         <form onSubmit={handleSubmit(onSubmit)}>
           <textarea
+            placeholder="Ctrl + Enter to add a line..."
             {...register('msg-input')}
             id="msg-input"
             type="text"
             spellCheck="true"
             autoComplete="off"
-            // ref={elInput}
+            ref={elInput}
             className={isEmpty ? '' : 'allowed'}
             onKeyUp={checkIsEmpty}
+            onKeyDown={checkIsEmpty}
           />
           <button type="submit" className={isEmpty ? '' : 'allowed'}>
             <img className={isEmpty ? '' : 'allowed'} src={send} alt="send" />
@@ -285,13 +351,24 @@ export const Chat = memo(() => {
           <img
             src={cogwheel}
             alt="settings"
-            onClick={() => setIsChatSettingsOpen(!isChatSettingsOpen)}
+            onClick={() => toggleCorrectWindow('settings')}
             className={`settings-icon ${isChatSettingsOpen ? 'open' : ''}`}
           />
-          <img src={attachment} alt="attachment" />
-          <img src={smiley} alt="smiley" />
+          <img
+            src={attachment}
+            alt="attachment"
+            onClick={() => toggleCorrectWindow('attach')}
+            className={`attach-icon ${isAttachWindowOpen ? 'open' : ''}`}
+          />
+          <img
+            src={isEmojiWindownOpen ? thinking : smiley}
+            alt="smiley"
+            onClick={() => toggleCorrectWindow('emoji')}
+          />
         </div>
         {isChatSettingsOpen && <ChatSettings />}
+        {isEmojiWindownOpen && <EmojiWindow addEmoji={addEmoji} />}
+        {isAttachWindowOpen && <AttachWindow />}
       </div>
     </div>
   );
