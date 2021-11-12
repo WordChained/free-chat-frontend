@@ -5,10 +5,11 @@ import CreatableSelect from 'react-select/creatable';
 // import makeAnimated from 'react-select/animated';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// import { socketService } from '../services/socketService';
+import { socketService } from '../services/socketService';
 import { useDispatch } from 'react-redux';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { getEmptyPrivateRoom } from '../services/roomService';
+import { getLoggedinUser } from '../store/actions/userActions';
 export const SearchForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -25,10 +26,11 @@ export const SearchForm = () => {
   const [topics, setTopics] = useState([]);
 
   const handleChange = (newValue, actionMeta) => {
-    console.log('new value:', newValue);
-    console.log(`action: ${actionMeta.action}`);
+    // console.log('new value:', newValue);
+    // console.log(`action: ${actionMeta.action}`);
     setTopics([...newValue]);
   };
+
   const search = (ev) => {
     ev.preventDefault();
     //if its topics and there are no topics, dont search
@@ -38,14 +40,23 @@ export const SearchForm = () => {
       //need to add user message here
       return;
     }
-    console.log('topics:', topics);
-    topics.map((topic) => console.log(topic.value));
+    // console.log('topics:', topics);
     const privateRoom = getEmptyPrivateRoom();
     privateRoom.topics = topics;
     dispatch(setCurrPrivateRoom(privateRoom));
     // storageService.store('topics', topics);
+
+    //making a simple topics array
+    let topicsToSocket = [...topics];
+    topicsToSocket = topics.length
+      ? topicsToSocket.map((topic) => topic.value)
+      : [];
+
     sessionStorage.setItem('topics', JSON.stringify(topics));
-    // socketService.on()
+    socketService.emit('join-private-room', {
+      uid: getLoggedinUser()._id,
+      topics: topicsToSocket,
+    });
     history.push('/free-chat');
   };
 

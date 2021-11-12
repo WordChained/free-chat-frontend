@@ -24,7 +24,12 @@ export const chatReducer = (state = INITIAL_STATE, action) => {
             //this doesnt do anything really, right?
             return {
                 ...state,
-                currChatMsgs: [...state.currChatMsgs]
+                currChatMsgs: [...state.currChatMsgs, action.msg]
+            }
+        case 'ADD_PRIVATE_MSG':
+            return {
+                ...state,
+                currChatMsgs: [...state.currChatMsgs, action.msg]
             }
         case 'STAR_MSG':
         case 'UN_STAR_MSG':

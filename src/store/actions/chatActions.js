@@ -13,7 +13,7 @@ export const addMsg = (roomId, msg, uid, name, isEdit, star, likes) => {
                 //     console.log('theres a double');
                 //     return
                 // }
-                dispatch({ type: 'ADD_MSG', msgs: room.msgs })
+                dispatch({ type: 'ADD_MSG', msg: room.msgs[room.msgs.length - 1] })//need to test this!!!!!!
 
             }
             else {
@@ -21,6 +21,20 @@ export const addMsg = (roomId, msg, uid, name, isEdit, star, likes) => {
             }
         } catch (err) {
             console.log('addMsg error:', err);
+        }
+    }
+}
+export const addPrivateMsg = (roomId, msg, uid, name) => {
+    //maybe add away to edit msg.
+    return async dispatch => {
+        const currUser = await getLoggedinUser()
+        console.log(currUser);
+        if (currUser._id === uid) {
+            const newMsg = { roomId, msg, uid, name }
+            dispatch({ type: 'ADD_PRIVATE_MSG', msg: newMsg })
+        }
+        else {
+            console.log('shouldnt happen. means the sender is not the logged in user/guest');
         }
     }
 }
@@ -96,6 +110,19 @@ export const unLikeMsg = (roomId, uid, msgId) => {
     }
 }
 export const getMsgs = (roomId) => {
+    return async dispatch => {
+        try {
+            // const room = await httpService.get(`room/${roomId}`)
+            const msgs = roomId ? await httpService.get(`room/chat/${roomId}`) : []
+            // console.log('msgs:', room.msgs);
+            dispatch({ type: 'SET_MSGS', msgs })
+        } catch (err) {
+            console.log('getMsgs error:', err);
+        }
+
+    }
+}
+export const getPrivateMsgs = (roomId) => {
     return async dispatch => {
         try {
             // const room = await httpService.get(`room/${roomId}`)

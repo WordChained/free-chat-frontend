@@ -5,8 +5,10 @@ import { useHistory } from 'react-router-dom';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { useDispatch } from 'react-redux';
 import { getEmptyPrivateRoom } from '../services/roomService';
+import { getLoggedinUser } from '../store/actions/userActions';
 
 import back from '../assets/imgs/back.png';
+import { socketService } from '../services/socketService';
 
 export const PrivateRoom = () => {
   const dispatch = useDispatch();
@@ -18,11 +20,22 @@ export const PrivateRoom = () => {
   const [topics, setTopics] = useState(
     JSON.parse(sessionStorage.getItem('topics'))
   );
+
+  // const [firstMsg, setFirstMsg] = useState('');
   useEffect(() => {
-    console.log('topics:', topics);
     const privateRoom = getEmptyPrivateRoom();
     privateRoom.topics = topics;
     dispatch(setCurrPrivateRoom(privateRoom));
+    let topicsToSocket = [...topics];
+    topicsToSocket = topics.length
+      ? topicsToSocket.map((topic) => topic.value)
+      : [];
+    return () => {
+      //   socketService.emit('leave-private-room', {
+      //     uid: getLoggedinUser()._id,
+      //     topics: topicsToSocket,
+      //   });
+    };
     //eslint-disable-next-line
   }, []);
 
@@ -34,26 +47,28 @@ export const PrivateRoom = () => {
       </div>
     );
   return (
-    <div className="private-room room-container">
-      <div className="header">
-        <h2>Free Chat</h2>
-        <div className="topic-list">
-          {currPrivateRoom.topics.map((topic, idx) => {
-            if (idx === topics.length - 1)
-              return <span key="topic.value">{topic.label}.</span>;
-            else return <span key="topic.value">{topic.label} , </span>;
-          })}
+    <div className="private-room-container room-container">
+      <div className="top-line">
+        <div className="header">
+          <h2>Free Chat</h2>
+          <div className="topic-list">
+            {currPrivateRoom.topics.map((topic, idx) => {
+              if (idx === topics.length - 1)
+                return <span key={topic.value}>{topic.label}.</span>;
+              else return <span key={topic.value}>{topic.label} , </span>;
+            })}
+          </div>
         </div>
+        <button
+          className="back-btn"
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          <img src={back} alt="back" />
+        </button>
       </div>
-      <button
-        className="back-btn"
-        onClick={() => {
-          history.push('/');
-        }}
-      >
-        <img src={back} alt="back" />
-      </button>
-      <PrivateChat />
+      <PrivateChat topics={topics} />
     </div>
   );
 };
