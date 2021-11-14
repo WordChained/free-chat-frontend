@@ -53,10 +53,10 @@ export const SearchForm = () => {
       : [];
 
     sessionStorage.setItem('topics', JSON.stringify(topics));
-    socketService.emit('join-private-room', {
-      uid: getLoggedinUser()._id,
-      topics: topicsToSocket,
-    });
+    // socketService.emit('join-private-room', {
+    //   uid: getLoggedinUser()._id,
+    //   topics: topicsToSocket,
+    // });
     history.push('/free-chat');
   };
 

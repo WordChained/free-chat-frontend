@@ -43,6 +43,7 @@ function App() {
     } else {
       dispatch(setReady(true));
     }
+    return () => {};
     //eslint-disable-next-line
   }, []);
 

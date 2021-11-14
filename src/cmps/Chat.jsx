@@ -36,7 +36,7 @@ import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 
 export const Chat = memo(() => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
   const { loggedInUser, guestUser, users } = useSelector(
@@ -215,8 +215,8 @@ export const Chat = memo(() => {
       star: [],
       likes: [],
     };
+    elInput.current.value = '';
     socketService.emit('room newMsg', newMsg);
-    reset();
   };
 
   if (!currUser || !users)

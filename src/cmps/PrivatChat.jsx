@@ -13,8 +13,8 @@ import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
 import thinking from '../assets/imgs/thinking.png';
 import send from '../assets/imgs/send.png';
-import edit from '../assets/imgs/edit.png';
-import like2 from '../assets/imgs/like2.png';
+// import edit from '../assets/imgs/edit.png';
+// import like2 from '../assets/imgs/like2.png';
 
 import defaultWP from '../assets/chat-backgrounds/default-background.jpg';
 
@@ -23,7 +23,11 @@ import maleUser from '../assets/imgs/tattoo-male.png';
 import femaleUser from '../assets/imgs/tattoo-female.png';
 import guestImg from '../assets/imgs/guest.png';
 
-import { getPrivateMsgs, addPrivateMsg } from '../store/actions/chatActions';
+import {
+  getPrivateMsgs,
+  addPrivateMsg,
+  createPrivateChat,
+} from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
 
@@ -35,7 +39,7 @@ import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 
 export const PrivateChat = memo(({ topics }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
   const { loggedInUser, guestUser, users } = useSelector(
@@ -43,6 +47,7 @@ export const PrivateChat = memo(({ topics }) => {
   );
   const { currPrivateRoom } = useSelector((state) => state.roomModule);
 
+  const [FilteredMsgs, setFilteredMsgs] = useState(false);
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
   const [currUser, setCurrUser] = useState(null);
@@ -61,12 +66,13 @@ export const PrivateChat = memo(({ topics }) => {
 
   const msgsContainer = useRef();
   useEffect(() => {
+    const uid = getLoggedinUser()._id;
     let topicsToSocket = [...topics];
     topicsToSocket = topics.length
       ? topicsToSocket.map((topic) => topic.value)
       : [];
     socketService.emit('join-private-room', {
-      uid: getLoggedinUser()._id,
+      uid,
       topics: topicsToSocket,
     });
     socketService.on('private-room-enter-msg', (enterMsg) => {
@@ -82,17 +88,24 @@ export const PrivateChat = memo(({ topics }) => {
     } else if (loggedInUser) {
       setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
     }
-
-    dispatch(getPrivateMsgs(currPrivateRoom._id));
     setSent(true);
-    socketService.on('private-room-add-msg', (msg) => {
-      dispatch(addPrivateMsg(currPrivateRoom._id, msg.text, msg.uid, msg.name));
-      // setTimeout(() => {
-      //   dispatch(getPrivateMsgs(currPrivateRoom._id));
-      // }, 100);
+    socketService.on('create-private-chat', (chatId) => {
+      dispatch(createPrivateChat(chatId));
+      // dispatch(getPrivateMsgs(chatId));
+    });
+    socketService.on('private-room-add-msg', ({ msg, chatId }) => {
+      if (msg.uid === uid) {
+        console.log('msg.uid === uid', msg.uid === uid);
+        dispatch(addPrivateMsg(chatId, msg.text, msg.uid, msg.name));
+      } else {
+        console.log('msg.uid === uid', msg.uid === uid);
+        setTimeout(() => {
+          dispatch(getPrivateMsgs(chatId));
+        }, 100);
+      }
     });
     return () => {
-      dispatch(getPrivateMsgs(null));
+      // dispatch(getPrivateMsgs(null));
       // socketService.off('room addMsg');
     };
 
@@ -118,11 +131,14 @@ export const PrivateChat = memo(({ topics }) => {
       uid: currUser._id,
       name: currUser[nameToAttatch],
     };
+    // reset()//doesnt work for some reason
     socketService.emit('private-room-msg', newMsg);
-    reset();
+    elInput.current.value = '';
   };
 
   const lookForNewChat = () => {
+    console.log('looking for new chat...');
+    dispatch(getPrivateMsgs(null));
     let topicsToSocket = [...topics];
     topicsToSocket = topics.length
       ? topicsToSocket.map((topic) => topic.value)
@@ -279,7 +295,7 @@ export const PrivateChat = memo(({ topics }) => {
                 </div>
               </div>
             ))}
-            <AlwaysScrollToBottom />
+            <AlwaysScrollToBottom msgs={currChatMsgs.length} />
           </div>
         )}
         <div className="typing-line">

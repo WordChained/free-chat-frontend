@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { PrivateChat } from '../cmps/PrivatChat';
 import { useHistory } from 'react-router-dom';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { useDispatch } from 'react-redux';
 import { getEmptyPrivateRoom } from '../services/roomService';
-import { getLoggedinUser } from '../store/actions/userActions';
+// import { getLoggedinUser } from '../store/actions/userActions';
 
 import back from '../assets/imgs/back.png';
-import { socketService } from '../services/socketService';
+// import { socketService } from '../services/socketService';
 
 export const PrivateRoom = () => {
   const dispatch = useDispatch();
   const { currPrivateRoom } = useSelector((state) => state.roomModule);
   const history = useHistory();
-  console.log('currPrivateRoom:', currPrivateRoom);
+  // console.log('currPrivateRoom:', currPrivateRoom);
 
   //   const [topics, setTopics] = useState(storageService.load('topics'));
-  const [topics, setTopics] = useState(
-    JSON.parse(sessionStorage.getItem('topics'))
-  );
+  const [topics, setTopics] = useState([]);
 
   // const [firstMsg, setFirstMsg] = useState('');
   useEffect(() => {
+    setTopics(JSON.parse(sessionStorage.getItem('topics')));
     const privateRoom = getEmptyPrivateRoom();
     privateRoom.topics = topics;
     dispatch(setCurrPrivateRoom(privateRoom));
@@ -31,13 +30,14 @@ export const PrivateRoom = () => {
       ? topicsToSocket.map((topic) => topic.value)
       : [];
     return () => {
-      //   socketService.emit('leave-private-room', {
-      //     uid: getLoggedinUser()._id,
-      //     topics: topicsToSocket,
-      //   });
+      // socketService.emit('leave-private-room', {
+      //   uid: getLoggedinUser()._id,
+      //   topics: topicsToSocket,
+      // });
     };
     //eslint-disable-next-line
   }, []);
+  const _PrivateChat = useMemo(() => <PrivateChat topics={topics} />, []);
 
   if (!currPrivateRoom)
     return (
@@ -68,7 +68,8 @@ export const PrivateRoom = () => {
           <img src={back} alt="back" />
         </button>
       </div>
-      <PrivateChat topics={topics} />
+      {/* <_PrivateChat topics={topics} /> */}
+      {_PrivateChat}
     </div>
   );
 };

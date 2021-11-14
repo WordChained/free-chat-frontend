@@ -24,17 +24,34 @@ export const addMsg = (roomId, msg, uid, name, isEdit, star, likes) => {
         }
     }
 }
-export const addPrivateMsg = (roomId, msg, uid, name) => {
+export const createPrivateChat = (chatId) => {
+    return async dispatch => {
+        try {
+            // const isExist = await httpService.get(`room/private-chat/${chatId}`)
+            // console.log('isExist:', isExist);
+            // if (isExist === []) return
+            const chat = await httpService.post(`room/private-chat/${chatId}`, { chatId })
+            dispatch({ type: 'SET_PRIVATE_MSGS', msgs: chat.msgs })
+        } catch (err) {
+            console.log('createPrivateChat error:', err);
+        }
+    }
+}
+export const addPrivateMsg = (chatId, msg, uid, name) => {
     //maybe add away to edit msg.
     return async dispatch => {
-        const currUser = await getLoggedinUser()
-        console.log(currUser);
-        if (currUser._id === uid) {
-            const newMsg = { roomId, msg, uid, name }
-            dispatch({ type: 'ADD_PRIVATE_MSG', msg: newMsg })
-        }
-        else {
-            console.log('shouldnt happen. means the sender is not the logged in user/guest');
+        try {
+            const currUser = await getLoggedinUser()
+            if (currUser._id === uid) {
+                console.log('times addmsg is running');
+                const chat = await httpService.post(`room/private-chat/${chatId}/msg`, { msg, uid, name })
+                dispatch({ type: 'ADD_PRIVATE_MSG', msg: chat.msgs[chat.msgs.length - 1] })
+            }
+            // else {
+
+            // }
+        } catch (err) {
+            console.log('addPrivateMsg error:', err);
         }
     }
 }
@@ -122,15 +139,28 @@ export const getMsgs = (roomId) => {
 
     }
 }
-export const getPrivateMsgs = (roomId) => {
+export const getPrivateMsgs = (chatId) => {
     return async dispatch => {
         try {
             // const room = await httpService.get(`room/${roomId}`)
-            const msgs = roomId ? await httpService.get(`room/chat/${roomId}`) : []
-            // console.log('msgs:', room.msgs);
-            dispatch({ type: 'SET_MSGS', msgs })
+            const msgs = chatId ? await httpService.get(`room/private-chat/${chatId}`) : []
+            console.log('msgs in getPrivateMsgs:', msgs);
+            dispatch({ type: 'SET_PRIVATE_MSGS', msgs: msgs ? msgs : [] })
         } catch (err) {
-            console.log('getMsgs error:', err);
+            console.log('getPrivateMsgs error:', err);
+        }
+
+    }
+}
+export const deletePrivateChat = (chatId) => {
+    return async dispatch => {
+        try {
+            // const room = await httpService.get(`room/${roomId}`)
+            const msgs = chatId ? await httpService.delete(`room/private-chat/${chatId}`) : []
+            // console.log('msgs:', room.msgs);
+            dispatch({ type: 'SET_PRIVATE_MSGS', msgs })
+        } catch (err) {
+            console.log('getPrivateMsgs error:', err);
         }
 
     }

@@ -20,8 +20,13 @@ export const chatReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currChatMsgs: action.msgs
             }
+        case 'SET_PRIVATE_MSGS':
+            console.log('SET_PRIVATE_MSGS:', action.msgs);
+            return {
+                ...state,
+                currChatMsgs: action.msgs
+            }
         case 'ADD_MSG':
-            //this doesnt do anything really, right?
             return {
                 ...state,
                 currChatMsgs: [...state.currChatMsgs, action.msg]
