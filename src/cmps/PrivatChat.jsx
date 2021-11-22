@@ -69,7 +69,6 @@ export const PrivateChat = memo(({ topics }) => {
   const msgsContainer = useRef();
 
   useEffect(() => {
-    console.log('rerenders of PrivateChat');
     const uid = getLoggedinUser()._id;
     let topicsToSocket = [...topics];
     topicsToSocket = topics.length
@@ -77,7 +76,7 @@ export const PrivateChat = memo(({ topics }) => {
       : [];
     socketService.emit('join-private-room', {
       uid,
-      topics: topicsToSocket,
+      topics: topicsToSocket.length ? topicsToSocket : ['freeChat-freeSearch'],
     });
     socketService.on('private-room-enter-msg', (enterMsg) => {
       console.log('enterMsg:', enterMsg);
