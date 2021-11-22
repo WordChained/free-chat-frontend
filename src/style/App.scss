@@ -10,12 +10,14 @@
 @import './cmps/attach-window';
 @import './cmps/emoji-window';
 @import './cmps/background-picker.scss';
+@import './cmps/_rooms-blocks-preview.scss';
 
 @import './pages/main-page';
 @import './pages/rooms';
 @import './pages/room';
 @import './pages/private-room';
 @import './pages/landing-page';
+@import './pages/about-page';
 
 @font-face {
   font-family: angel-raphsody;
@@ -35,6 +37,8 @@
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
+  // overflow-y: hidden;
 }
 * {
   box-sizing: border-box;
@@ -42,6 +46,7 @@
 html {
   scroll-behavior: smooth;
   background-color: #282c34;
+  overflow: hidden;
 }
 
 button,
@@ -66,4 +71,15 @@ ul {
   90% {
     top: -300px;
   }
+}
+
+.screen-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  height: 100%;
+  width: 100vw;
+  // pointer-events: none;
 }

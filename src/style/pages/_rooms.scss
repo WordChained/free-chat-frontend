@@ -1,15 +1,50 @@
 .rooms-page {
   position: relative;
-  .rooms-list {
-    display: flex;
-    flex-direction: column;
-    border: white 1px solid;
-    text-align: start;
-    background-color: #394152;
+  .view-type-toggler {
     margin-top: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    justify-content: end;
+    .btns {
+      display: flex;
+      align-self: flex-end;
+    }
+    button {
+      background-color: grey;
+      &.used {
+        background-color: white;
+      }
+      border: none;
+      overflow: hidden;
+      &:first-child {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+      &:nth-child(2) {
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+      }
 
+      img {
+        max-width: 30px;
+        padding: 5px;
+      }
+    }
+  }
+  .rooms-list {
+    &.table {
+      display: flex;
+      flex-direction: column;
+      border: white 1px solid;
+      text-align: start;
+      background-color: #394152;
+      margin-top: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border-radius: 20px;
+    }
     tr {
       transition: all 0.1s ease-in-out;
       &:hover {
@@ -80,6 +115,28 @@
     }
     img {
       height: 40px;
+    }
+  }
+}
+@media (max-width: 500px) {
+  .rooms-page {
+    display: flex;
+    flex-direction: column;
+    .create-room-btn {
+      position: unset;
+      box-shadow: 2px 2px 4px rgb(233, 139, 139);
+      background-color: rgb(101, 174, 230);
+      order: -1;
+      margin: 20px 0 20px 0;
+      align-self: flex-end;
+    }
+    .forms {
+      display: flex;
+      // margin-top: 100px;
+      align-items: center;
+      .free-search-form {
+        align-self: unset;
+      }
     }
   }
 }

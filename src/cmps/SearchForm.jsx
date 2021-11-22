@@ -61,7 +61,7 @@ export const SearchForm = () => {
   };
 
   return (
-    <div>
+    <div className="search-form">
       <form onSubmit={search}>
         <div className="radio-btns">
           <div>

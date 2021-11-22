@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import defaultRoomImg from '../assets/imgs/room.png';
 import { Link } from 'react-router-dom';
 
 //icons
@@ -12,8 +13,7 @@ import { setCurrRoom, remove, query } from '../store/actions/roomActions';
 import { update, getUserById } from '../store/actions/userActions';
 
 import { socketService } from '../services/socketService';
-
-export const RoomPreview = ({ room, user, exit, getRoomId }) => {
+export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -64,32 +64,32 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
     const sameMonth = currTimeStamp.getMonth() + 1 === date.getMonth() + 1;
     const sameYear = currTimeStamp.getFullYear() === date.getFullYear();
     if (sameDay && sameMonth && sameYear)
-      return date.toLocaleTimeString('he-IL', {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
+      return (
+        'Today at ' +
+        date.toLocaleTimeString('he-IL', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
     else return date.toLocaleDateString('he-IL');
   };
 
   return (
-    <Fragment>
-      <td className="room-name" onClick={routeToRoom}>
-        <Link to={`rooms/${room._id}`}>{room.name}</Link>
-      </td>
-      <td>{room.topic}</td>
-      <td>{room.type}</td>
-      {/* <td>{room.limit}</td> */}
-      {/* <td>
-        {room.restrictions.length ? room.restrictions.join(', ') : 'none'}
-      </td> */}
-      <td>
+    <div className="block-preview">
+      <img src={room.imgUrl ? room.imgUrl : defaultRoomImg} alt="room-img" />
+      <span>
+        Name: <Link to={`rooms/${room._id}`}>{room.name}</Link>
+      </span>
+      <span>Topic: {room.topic}</span>
+      <span>
+        Activity:{' '}
         {room.msgs.length > 0 ? (
           <span>{isToday(room.msgs[room.msgs.length - 1].sentAt)}</span>
         ) : (
           <span>Nothing yet!</span>
         )}
-      </td>
-      <td className="actions">
+      </span>
+      <div className="actions">
         <img src={edit} alt="edit-btn" onClick={editRoom} />
         <img
           onClick={toggleToLiked}
@@ -105,7 +105,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
             alt="remove-btn"
           />
         )}
-      </td>
-    </Fragment>
+      </div>
+    </div>
   );
 };

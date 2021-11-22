@@ -17,6 +17,10 @@ import { CreateRoom } from '../cmps/CreateRoom';
 import { getLoggedinUser } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
 
+//icons
+import tableIcon from '../assets/imgs/table.png';
+import blocksIcon from '../assets/imgs/blocks.png';
+
 export const Rooms = memo(() => {
   const {
     rooms,
@@ -28,6 +32,7 @@ export const Rooms = memo(() => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const [usersInRoom, setUsersInRoom] = useState(0);
+  const [viewType, setViewType] = useState('table');
 
   const [showRoomCreation, setShowRoomCreation] = useState(false);
 
@@ -112,7 +117,26 @@ export const Rooms = memo(() => {
       {showRoomCreation && (
         <CreateRoom exit={setShowRoomCreation} user={getLoggedinUser()} />
       )}
-      <RoomList rooms={filteredRooms ? filteredRooms : rooms} />
+      <div className="view-type-toggler">
+        <div className="btns">
+          <button
+            className={viewType === 'table' ? 'used' : ''}
+            onClick={() => setViewType('table')}
+          >
+            <img src={tableIcon} alt="table-icon" />
+          </button>
+          <button
+            className={viewType === 'blocks' ? 'used' : ''}
+            onClick={() => setViewType('blocks')}
+          >
+            <img src={blocksIcon} alt="blocks-icon" />
+          </button>
+        </div>
+      </div>
+      <RoomList
+        rooms={filteredRooms ? filteredRooms : rooms}
+        viewType={viewType}
+      />
     </div>
   );
 });

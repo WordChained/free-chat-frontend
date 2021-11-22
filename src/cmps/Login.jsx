@@ -69,7 +69,7 @@ export const Login = ({ close, onSignupLink }) => {
           />
           <div className="passwords-container">
             <input
-              className={wrongCreds ? 'wrong' : ''}
+              className={wrongCreds ? 'password-input wrong' : 'password-input'}
               {...register('password')}
               type={show ? 'text' : 'password'}
               name="password"
@@ -77,7 +77,7 @@ export const Login = ({ close, onSignupLink }) => {
               placeholder="Enter your password"
             />
             <button
-              className="show-pasword-btn"
+              className="show-password-btn"
               onClick={(ev) => toggleShowPassword(ev)}
             >
               <img
@@ -87,7 +87,7 @@ export const Login = ({ close, onSignupLink }) => {
               />
             </button>
           </div>
-          <input type="submit" value="Log In" />
+          <input className="log-btn" type="submit" value="Get chatting!" />
         </form>
         {/* <button>Google</button> */}
         {error && <div>*{error}</div>}

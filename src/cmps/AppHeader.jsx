@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useLayoutEffect, Fragment } from 'react';
 import {
   Link,
   NavLink,
@@ -17,15 +17,36 @@ import { UserDropdown } from '../cmps/UserDropdown';
 import { logout } from '../store/actions/userActions';
 import { useDispatch } from 'react-redux';
 
+//icons &imgs:
 import logo from '../assets/imgs/chat-logo.png';
 
 export const AppHeader = () => {
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
   const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [openNav, setOpenNav] = useState(false);
+
+  const [width, height] = useWindowSize();
+
+  // function ShowWindowDimensions(props) {
+  //   const [width, height] = useWindowSize();
+  //   return <span>Window size: {width} x {height}</span>;
+  // }
 
   const closeLogin = () => setShowLogin(false);
   const closeSignup = () => setShowSignup(false);
@@ -46,58 +67,89 @@ export const AppHeader = () => {
     history.push('/:landing-page');
   };
   return (
-    <section className="app-header">
-      <nav className="main-nav">
-        <Link to="/">
-          <img className="logo" src={logo} alt="logo" />
-        </Link>
-        <span> | </span>
-        <NavLink
-          className="home-link"
-          activeClassName="active-nav"
-          exact
-          to="/"
-        >
-          Home
-        </NavLink>
-        <span> | </span>
-        <NavLink
-          className="about-link"
-          activeClassName="active-nav"
-          exact
-          to="/about"
-        >
-          About
-        </NavLink>
-        <span> | </span>
-        <NavLink
-          className="Rooms-link"
-          activeClassName="active-nav"
-          exact
-          to="/rooms"
-        >
-          Rooms
-        </NavLink>
-        <div className={`user-links ${guestUser ? 'guest' : ''}`}>
-          {(loggedInUser || guestUser) && (
-            <UserDropdown
-              user={loggedInUser ? loggedInUser : guestUser}
-              logout={onLogout}
-            />
+    <Fragment>
+      <section className="app-header">
+        <nav className="main-nav">
+          <Link to="/">
+            <img className="logo" src={logo} alt="logo" />
+          </Link>
+          {width > 700 && <span> | </span>}
+          {width < 500 && (
+            <div
+              id="nav-icon3"
+              className={`${openNav ? 'open' : ''}`}
+              onClick={() => setOpenNav(!openNav)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           )}
-          <div className="reg-btns">
-            {!loggedInUser && (
-              <span onClick={() => setShowLogin(true)}>Login</span>
-            )}
-            {!loggedInUser && '|'}
-            {!loggedInUser && (
-              <span onClick={() => setShowSignup(true)}>Signup</span>
-            )}
+          <div className={`nav-btns ${openNav ? 'open' : 'close'}`}>
+            <NavLink
+              className="home-link"
+              activeClassName="active-nav"
+              exact
+              to="/"
+              onClick={() => setOpenNav(!openNav)}
+            >
+              Home
+            </NavLink>
+            {width > 700 && <span> | </span>}
+            <NavLink
+              className="about-link"
+              activeClassName="active-nav"
+              exact
+              to="/about"
+              onClick={() => setOpenNav(!openNav)}
+            >
+              About
+            </NavLink>
+            {width > 700 && <span> | </span>}
+            <NavLink
+              className="Rooms-link"
+              activeClassName="active-nav"
+              exact
+              to="/rooms"
+              onClick={() => setOpenNav(!openNav)}
+            >
+              Rooms
+            </NavLink>
+            <div
+              className={`user-links ${guestUser ? 'guest' : ''} ${
+                openNav ? 'open' : ''
+              }`}
+            >
+              {(loggedInUser || guestUser) && (
+                <UserDropdown
+                  user={loggedInUser ? loggedInUser : guestUser}
+                  logout={onLogout}
+                />
+              )}
+              <div className="reg-btns">
+                {!loggedInUser && (
+                  <span onClick={() => setShowLogin(true)}>Login</span>
+                )}
+                {!loggedInUser && '|'}
+                {!loggedInUser && (
+                  <span onClick={() => setShowSignup(true)}>Signup</span>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-        {showSignup && <Signup close={closeSignup} onLoginLink={onLoginLink} />}
-        {showLogin && <Login close={closeLogin} onSignupLink={onSignupLink} />}
-      </nav>
-    </section>
+          {showSignup && (
+            <Signup close={closeSignup} onLoginLink={onLoginLink} />
+          )}
+          {showLogin && (
+            <Login close={closeLogin} onSignupLink={onSignupLink} />
+          )}
+        </nav>
+      </section>
+      <div
+        className={`${openNav ? 'screen-cover' : ''}`}
+        onClick={() => setOpenNav(false)}
+      ></div>
+    </Fragment>
   );
 };

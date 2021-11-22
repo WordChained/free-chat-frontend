@@ -127,7 +127,7 @@ export const Signup = ({ close, onLoginLink }) => {
               placeholder="Enter your password"
             />
             <button
-              className="show-pasword-btn"
+              className="show-password-btn"
               onClick={(ev) => toggleShowPassword(ev)}
             >
               <img
@@ -149,7 +149,7 @@ export const Signup = ({ close, onLoginLink }) => {
               ref={pass}
             />
             <button
-              className="show-pasword-btn"
+              className="show-password-btn"
               onClick={(ev) => toggleShowPassword(ev)}
             >
               <img
@@ -159,7 +159,7 @@ export const Signup = ({ close, onLoginLink }) => {
               />
             </button>
           </div>
-          <input type="submit" value="signup" />
+          <input className="signup-btn" type="submit" value="Get chatting!" />
           {error && <div>*{error}</div>}
           {isUser && <div>*This email is already in use</div>}
         </form>

@@ -1,0 +1,36 @@
+.blocks-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 20px;
+  .block-preview {
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    gap: 7px;
+    flex-direction: column;
+    background-color: rgb(92, 103, 105);
+    border: 2px black solid;
+    align-items: center;
+    img {
+      max-width: 100px;
+    }
+    a {
+      align-self: flex-start;
+      font-size: 1rem;
+      color: white;
+    }
+    span {
+      align-self: flex-start;
+      font-size: 1rem;
+    }
+    .actions {
+      border: 1px white solid;
+      border-radius: 3em;
+      img {
+        max-width: 30px;
+      }
+    }
+  }
+}

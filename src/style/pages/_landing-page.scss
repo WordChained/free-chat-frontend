@@ -35,3 +35,53 @@
     }
   }
 }
+
+@media (max-width: 500px) {
+  .login-container {
+    height: 50vh;
+    justify-content: space-between;
+    border-radius: 20px;
+    form {
+      height: 100%;
+      justify-content: space-around;
+      input {
+        min-height: 50px;
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        text-align: center;
+        max-width: 208px;
+        font-size: 1rem;
+        align-self: center;
+        &.password-input {
+          margin-left: 18px;
+        }
+      }
+    }
+
+    .log-btn {
+      align-self: center;
+      padding: 0 20px 0 20px;
+    }
+    .show-password-btn {
+      justify-content: flex-end;
+    }
+  }
+  .signup-container {
+    top: 53%;
+    height: 65vh;
+    border-radius: 20px;
+    justify-content: space-between;
+    form {
+      justify-content: space-between;
+      .signup-btn {
+        align-self: center;
+        padding: 10px 20px 10px 20px;
+      }
+      input,
+      select {
+        min-height: 30px;
+      }
+    }
+  }
+}

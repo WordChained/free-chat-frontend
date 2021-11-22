@@ -96,6 +96,7 @@ function App() {
             <PrivateRoute path="/about" component={About} />
             <PrivateRoute path="/free-chat" component={PrivateRoom} />
             <NoneUsers path="/:landingPage" component={LandingPage} />
+
             <PrivateRoute path="/" component={MainPage} />
           </Switch>
         </main>

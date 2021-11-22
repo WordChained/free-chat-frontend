@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { RoomPreview } from './RoomPreview';
+import { RoomBlockPreview } from './RoomBlockPreview';
 import { getLoggedinUser } from '../store/actions/userActions';
 import { CreateRoom } from './CreateRoom';
-export const RoomList = ({ rooms }) => {
+
+export const RoomList = ({ rooms, viewType }) => {
   const [showRoomEdit, setShowRoomEdit] = useState(false);
   const [roomToEdit, setRoomToEdit] = useState(null);
 
@@ -12,34 +14,50 @@ export const RoomList = ({ rooms }) => {
   };
 
   return (
-    <div className="rooms-list">
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>topic</th>
-            <th>type</th>
-            <th>Limit</th>
-            <th>Restrictions</th>
-            <th>last Message</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className={`rooms-list ${viewType}`}>
+      {viewType === 'table' && (
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>topic</th>
+              <th>type</th>
+              {/* <th>Limit</th> */}
+              {/* <th>Restrictions</th> */}
+              <th>last Message</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rooms.map((room) => {
+              return (
+                <tr key={room._id}>
+                  <RoomPreview
+                    room={room}
+                    user={getLoggedinUser()}
+                    exit={setShowRoomEdit}
+                    getRoomId={getRoomId}
+                  />
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+      {viewType === 'blocks' && (
+        <div className="blocks-list">
           {rooms.map((room) => {
             return (
-              <tr key={room._id}>
-                <RoomPreview
-                  room={room}
-                  user={getLoggedinUser()}
-                  exit={setShowRoomEdit}
-                  getRoomId={getRoomId}
-                />
-              </tr>
+              <RoomBlockPreview
+                room={room}
+                user={getLoggedinUser()}
+                exit={setShowRoomEdit}
+                getRoomId={getRoomId}
+              />
             );
           })}
-        </tbody>
-      </table>
+        </div>
+      )}
       {showRoomEdit && (
         <CreateRoom
           exit={setShowRoomEdit}
