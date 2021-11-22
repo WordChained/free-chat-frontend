@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import star from '../assets/imgs/star.png';
 import like from '../assets/imgs/like.png';
 import removeIcon from '../assets/imgs/trash.png';
-import editIcon from '../assets/imgs/edit.png';
+// import editIcon from '../assets/imgs/edit.png';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,7 +13,7 @@ import {
   likeMsg,
   unLikeMsg,
   removeMsg,
-  editMsg,
+  // editMsg,
 } from '../store/actions/chatActions';
 export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
   const dispatch = useDispatch();
@@ -65,9 +65,9 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       // setJustLike(true);
     }
   };
-  const onEditMsg = (msgId) => {
-    dispatch(editMsg(msgId, currRoom._id));
-  };
+  // const onEditMsg = (msgId) => {
+  //   dispatch(editMsg(msgId, currRoom._id));
+  // };
   const onRemoveMsg = (msgId) => {
     if (
       !window.confirm(

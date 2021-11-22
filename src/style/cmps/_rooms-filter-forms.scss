@@ -23,6 +23,10 @@
       border-radius: 4px;
       width: 30vw;
       height: 38px;
+      min-width: 300px;
+      &:focus {
+        outline: #2684ff 2px solid;
+      }
     }
   }
 }

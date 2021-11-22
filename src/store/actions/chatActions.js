@@ -1,19 +1,18 @@
 import { httpService } from '../../services/httpService.js';
 import { getLoggedinUser } from './userActions.js';
-export const addMsg = (roomId, msg, uid, name, isEdit, star, likes) => {
-    //maybe add away to edit msg.
+export const addMsg = (roomId, msg, uid, name, isEdit, star, likes, ticket) => {
+    //maybe add a way to edit msg.
     return async dispatch => {
         try {
             const currUser = await getLoggedinUser()
-            console.log(currUser);
             if (currUser._id === uid) {
-                const room = await httpService.post(`room/chat/${roomId}`, { msg, uid, name, isEdit, star, likes })
+                const room = await httpService.post(`room/chat/${roomId}`, { msg, uid, name, isEdit, star, likes, ticket })
                 // const newMsg = room.msgs[room.msgs.length - 1]
                 // if (room.msgs.find(m => m.id === msg.id)) {
                 //     console.log('theres a double');
                 //     return
                 // }
-                dispatch({ type: 'ADD_MSG', msg: room.msgs[room.msgs.length - 1] })//need to test this!!!!!!
+                dispatch({ type: 'ADD_MSG', msg: room.msgs[room.msgs.length - 1] })
 
             }
             else {
@@ -27,9 +26,6 @@ export const addMsg = (roomId, msg, uid, name, isEdit, star, likes) => {
 export const createPrivateChat = (chatId) => {
     return async dispatch => {
         try {
-            // const isExist = await httpService.get(`room/private-chat/${chatId}`)
-            // console.log('isExist:', isExist);
-            // if (isExist === []) return
             const chat = await httpService.post(`room/private-chat/${chatId}`, { chatId })
             dispatch({ type: 'SET_PRIVATE_MSGS', msgs: chat.msgs })
         } catch (err) {
@@ -37,14 +33,18 @@ export const createPrivateChat = (chatId) => {
         }
     }
 }
-export const addPrivateMsg = (chatId, msg, uid, name) => {
+export const addPrivateMsg = (chatId, msg, uid, name, ticket) => {
     //maybe add away to edit msg.
     return async dispatch => {
         try {
             const currUser = await getLoggedinUser()
+            console.log('(addPrivateMsg)currUser._id === uid:', currUser._id === uid);
+            console.log('chatId, msg, uid, name, ticket:', chatId, msg, uid, name, ticket);
             if (currUser._id === uid) {
-                console.log('times addmsg is running');
-                const chat = await httpService.post(`room/private-chat/${chatId}/msg`, { msg, uid, name })
+                //it fails here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                const chat = await httpService.post(`room/private-chat/msg/${chatId}`, { msg, uid, name, ticket })
+                //it fails here^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                console.log('times addPrivateMsg is running', 'chat:', chat);
                 dispatch({ type: 'ADD_PRIVATE_MSG', msg: chat.msgs[chat.msgs.length - 1] })
             }
             // else {
@@ -145,7 +145,7 @@ export const getPrivateMsgs = (chatId) => {
             // const room = await httpService.get(`room/${roomId}`)
             const msgs = chatId ? await httpService.get(`room/private-chat/${chatId}`) : []
             console.log('msgs in getPrivateMsgs:', msgs);
-            dispatch({ type: 'SET_PRIVATE_MSGS', msgs: msgs ? msgs : [] })
+            dispatch({ type: 'SET_PRIVATE_MSGS', msgs })
         } catch (err) {
             console.log('getPrivateMsgs error:', err);
         }
@@ -156,9 +156,10 @@ export const deletePrivateChat = (chatId) => {
     return async dispatch => {
         try {
             // const room = await httpService.get(`room/${roomId}`)
-            const msgs = chatId ? await httpService.delete(`room/private-chat/${chatId}`) : []
+            await httpService.delete(`room/private-chat/${chatId}`, { chatId })
             // console.log('msgs:', room.msgs);
-            dispatch({ type: 'SET_PRIVATE_MSGS', msgs })
+            console.log('chat deleted');
+            dispatch({ type: 'SET_PRIVATE_MSGS', msgs: [] })
         } catch (err) {
             console.log('getPrivateMsgs error:', err);
         }

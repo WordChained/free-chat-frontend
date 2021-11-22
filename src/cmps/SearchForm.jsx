@@ -5,11 +5,11 @@ import CreatableSelect from 'react-select/creatable';
 // import makeAnimated from 'react-select/animated';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { socketService } from '../services/socketService';
+// import { socketService } from '../services/socketService';
 import { useDispatch } from 'react-redux';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { getEmptyPrivateRoom } from '../services/roomService';
-import { getLoggedinUser } from '../store/actions/userActions';
+// import { getLoggedinUser } from '../store/actions/userActions';
 export const SearchForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -47,10 +47,10 @@ export const SearchForm = () => {
     // storageService.store('topics', topics);
 
     //making a simple topics array
-    let topicsToSocket = [...topics];
-    topicsToSocket = topics.length
-      ? topicsToSocket.map((topic) => topic.value)
-      : [];
+    // let topicsToSocket = [...topics];
+    // topicsToSocket = topics.length
+    //   ? topicsToSocket.map((topic) => topic.value)
+    //   : [];
 
     sessionStorage.setItem('topics', JSON.stringify(topics));
     // socketService.emit('join-private-room', {

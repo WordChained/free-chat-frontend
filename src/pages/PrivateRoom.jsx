@@ -1,43 +1,60 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { PrivateChat } from '../cmps/PrivatChat';
 import { useHistory } from 'react-router-dom';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { useDispatch } from 'react-redux';
 import { getEmptyPrivateRoom } from '../services/roomService';
-// import { getLoggedinUser } from '../store/actions/userActions';
+import { getLoggedinUser } from '../store/actions/userActions';
 
 import back from '../assets/imgs/back.png';
-// import { socketService } from '../services/socketService';
+import { socketService } from '../services/socketService';
 
 export const PrivateRoom = () => {
   const dispatch = useDispatch();
-  const { currPrivateRoom } = useSelector((state) => state.roomModule);
+  const { currPrivateRoom, currChatMsgs } = useSelector(
+    (state) => state.roomModule
+  );
   const history = useHistory();
   // console.log('currPrivateRoom:', currPrivateRoom);
 
   //   const [topics, setTopics] = useState(storageService.load('topics'));
-  const [topics, setTopics] = useState([]);
+  const topics = JSON.parse(sessionStorage.getItem('topics'));
 
   // const [firstMsg, setFirstMsg] = useState('');
   useEffect(() => {
-    setTopics(JSON.parse(sessionStorage.getItem('topics')));
     const privateRoom = getEmptyPrivateRoom();
     privateRoom.topics = topics;
     dispatch(setCurrPrivateRoom(privateRoom));
-    let topicsToSocket = [...topics];
-    topicsToSocket = topics.length
-      ? topicsToSocket.map((topic) => topic.value)
-      : [];
-    return () => {
-      // socketService.emit('leave-private-room', {
-      //   uid: getLoggedinUser()._id,
-      //   topics: topicsToSocket,
-      // });
-    };
+    // let topicsToSocket = [...topics];
+    // topicsToSocket = topics.length
+    //   ? topicsToSocket.map((topic) => topic.value)
+    //   : [];
+    // return () => {
+    // socketService.emit('leave-private-room', {
+    //   uid: getLoggedinUser()._id,
+    //   topics: topicsToSocket,
+    // });
+    // };
     //eslint-disable-next-line
   }, []);
-  const _PrivateChat = useMemo(() => <PrivateChat topics={topics} />, []);
+  const _PrivateChat = useMemo(
+    () => <PrivateChat topics={topics} />,
+    [currChatMsgs]
+  );
+
+  // const removeRoomAndBack =()=>{
+  //   history.push('/');
+  //   let topicsToSocket = [...topics];
+  //   topicsToSocket = topics.length
+  //     ? topicsToSocket.map((topic) => topic.value)
+  //     : [];
+  //   socketService.emit('leave-private-room', {
+  //     uid: getLoggedinUser()._id,
+  //     topics: topicsToSocket,
+  //   });
+  //   setCurrPrivateRoom(null)
+  //   };
 
   if (!currPrivateRoom)
     return (
@@ -59,12 +76,7 @@ export const PrivateRoom = () => {
             })}
           </div>
         </div>
-        <button
-          className="back-btn"
-          onClick={() => {
-            history.push('/');
-          }}
-        >
+        <button className="back-btn" onClick={() => history.push('/')}>
           <img src={back} alt="back" />
         </button>
       </div>

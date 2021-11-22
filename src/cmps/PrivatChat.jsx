@@ -27,10 +27,11 @@ import {
   getPrivateMsgs,
   addPrivateMsg,
   createPrivateChat,
+  deletePrivateChat,
 } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
-
+import { makeIdWithLetters } from '../services/utilService';
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 // import { MsgEditOptions } from './MsgEditOptions';
 import { ChatSettings } from './ChatSettings';
@@ -42,12 +43,12 @@ export const PrivateChat = memo(({ topics }) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
-  const { loggedInUser, guestUser, users } = useSelector(
+  const { loggedInUser, guestUser, users, ready } = useSelector(
     (state) => state.userModule
   );
   const { currPrivateRoom } = useSelector((state) => state.roomModule);
 
-  const [FilteredMsgs, setFilteredMsgs] = useState(false);
+  // const [FilteredMsgs, setFilteredMsgs] = useState(false);
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
   const [currUser, setCurrUser] = useState(null);
@@ -58,14 +59,17 @@ export const PrivateChat = memo(({ topics }) => {
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
 
+  const [currChatId, setCurrChatId] = useState(null);
+
   const elInput = useRef();
   const addEmoji = (emoji) => {
-    // console.log('value:', elInput.current.value);
     elInput.current.value = elInput.current.value + emoji;
   };
 
   const msgsContainer = useRef();
+
   useEffect(() => {
+    console.log('rerenders of PrivateChat');
     const uid = getLoggedinUser()._id;
     let topicsToSocket = [...topics];
     topicsToSocket = topics.length
@@ -90,27 +94,35 @@ export const PrivateChat = memo(({ topics }) => {
     }
     setSent(true);
     socketService.on('create-private-chat', (chatId) => {
+      console.log('chatId in create-private-chat:', chatId);
+      setCurrChatId(chatId);
       dispatch(createPrivateChat(chatId));
       // dispatch(getPrivateMsgs(chatId));
     });
     socketService.on('private-room-add-msg', ({ msg, chatId }) => {
-      if (msg.uid === uid) {
-        console.log('msg.uid === uid', msg.uid === uid);
-        dispatch(addPrivateMsg(chatId, msg.text, msg.uid, msg.name));
-      } else {
-        console.log('msg.uid === uid', msg.uid === uid);
-        setTimeout(() => {
-          dispatch(getPrivateMsgs(chatId));
-        }, 100);
-      }
+      console.log('private-room-add-msg.', msg, chatId);
+      dispatch(addPrivateMsg(chatId, msg.text, msg.uid, msg.name, msg.ticket));
+      setTimeout(() => {
+        dispatch(getPrivateMsgs(chatId));
+      }, 100);
     });
     return () => {
-      // dispatch(getPrivateMsgs(null));
-      // socketService.off('room addMsg');
+      dispatch(getPrivateMsgs(null));
+      socketService.off('private-room-add-msg');
+      // socketService.emit('leave-private-room', {
+      //   uid: getLoggedinUser()._id,
+      //   topics: topicsToSocket,
+      // });
     };
 
     //eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    console.log('change in currChatId. currChatId:', currChatId);
+    return () => {
+      if (currChatId) dispatch(deletePrivateChat(currChatId));
+    };
+  }, [currChatId]);
 
   const getSenderInfo = (type, msg) => {
     const sender = users.find((u) => {
@@ -130,6 +142,7 @@ export const PrivateChat = memo(({ topics }) => {
       text: data['msg-input'],
       uid: currUser._id,
       name: currUser[nameToAttatch],
+      ticket: makeIdWithLetters(10),
     };
     // reset()//doesnt work for some reason
     socketService.emit('private-room-msg', newMsg);
@@ -139,6 +152,7 @@ export const PrivateChat = memo(({ topics }) => {
   const lookForNewChat = () => {
     console.log('looking for new chat...');
     dispatch(getPrivateMsgs(null));
+    dispatch(deletePrivateChat(currChatId));
     let topicsToSocket = [...topics];
     topicsToSocket = topics.length
       ? topicsToSocket.map((topic) => topic.value)
@@ -151,7 +165,7 @@ export const PrivateChat = memo(({ topics }) => {
       uid: getLoggedinUser()._id,
       topics: topicsToSocket,
     });
-    setFirstMsg('looking for a stranger...');
+    // setFirstMsg('looking for a stranger...');
   };
 
   const keyMap = {};
@@ -161,6 +175,7 @@ export const PrivateChat = memo(({ topics }) => {
     let data = { 'msg-input': ev.target.value };
     if (ev.target.value === '') {
       setIsEmpty(true);
+      if (ev.keyCode === enter) ev.preventDefault();
     } else {
       setIsEmpty(false);
     }
@@ -170,10 +185,10 @@ export const PrivateChat = memo(({ topics }) => {
       console.log('both!');
       ev.target.value = ev.target.value + '\n';
     } else if (keyMap[enter]) {
+      if (!ev.target.value) return;
       ev.preventDefault();
-      console.log('just enter');
       handleSubmit(onSubmit(data));
-    }
+    } else return;
   };
 
   const toggleCorrectWindow = (name) => {
@@ -213,7 +228,7 @@ export const PrivateChat = memo(({ topics }) => {
     }
   };
 
-  if (!currUser || !users)
+  if (!currUser || !users || !ready || !currChatId)
     return (
       <div className="lds-ripple">
         <div></div>

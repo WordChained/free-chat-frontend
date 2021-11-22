@@ -8,6 +8,7 @@ export const EmojiWindow = ({ addEmoji }) => {
   useEffect(() => {
     if (!chosenEmoji) return;
     addEmoji(chosenEmoji.emoji);
+    //eslint-disable-next-line
   }, [chosenEmoji]);
   return (
     <div className="emoji-window-container">

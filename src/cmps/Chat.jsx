@@ -34,6 +34,7 @@ import { ChatSettings } from './ChatSettings';
 import { EmojiWindow } from './EmojiWindow';
 import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
+import { makeIdWithLetters } from '../services/utilService';
 
 export const Chat = memo(() => {
   const { register, handleSubmit } = useForm();
@@ -46,7 +47,7 @@ export const Chat = memo(() => {
 
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
-  const [currUser, setCurrUser] = useState(null);
+  // const [currUser, setCurrUser] = useState(null);
   const [isEmpty, setIsEmpty] = useState(true);
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
   const [isEmojiWindownOpen, setIsEmojiWindownOpen] = useState(false);
@@ -56,13 +57,14 @@ export const Chat = memo(() => {
     edit: false,
     msgId: null,
   });
-
+  const currUser = getLoggedinUser();
   useEffect(() => {
     // socketService.emit('room topic', currRoom._id);
+    console.log('times Chat is rendered');
     if (!users) {
       dispatch(getUsers());
     }
-    setCurrUser(getLoggedinUser());
+    // setCurrUser(getLoggedinUser());
     if (guestUser) {
       setDefaultImg(guestImg);
     } else if (loggedInUser) {
@@ -72,20 +74,23 @@ export const Chat = memo(() => {
     dispatch(getMsgs(currRoom._id));
     setSent(true);
     socketService.on('room addMsg', (msg) => {
-      dispatch(
-        addMsg(
-          currRoom._id,
-          msg.text,
-          msg.uid,
-          msg.name,
-          msg.isEdit,
-          msg.star,
-          msg.likes
-        )
-      );
-      setTimeout(() => {
+      console.log('times this happens');
+      if (msg.uid === getLoggedinUser()._id)
+        dispatch(
+          addMsg(
+            currRoom._id,
+            msg.text,
+            msg.uid,
+            msg.name,
+            msg.isEdit,
+            msg.star,
+            msg.likes,
+            msg.ticket
+          )
+        );
+      else {
         dispatch(getMsgs(currRoom._id));
-      }, 100);
+      }
     });
     return () => {
       dispatch(getMsgs(null));
@@ -102,9 +107,9 @@ export const Chat = memo(() => {
   };
 
   const msgsContainer = useRef();
-  const onChangeBackgroundImg = (image) => {
-    console.log(msgsContainer.current);
-  };
+  // const onChangeBackgroundImg = (image) => {
+  //   console.log(msgsContainer.current);
+  // };
   const toggleCorrectWindow = (name) => {
     switch (name) {
       case 'clear':
@@ -149,6 +154,7 @@ export const Chat = memo(() => {
     const enter = 13;
     let data = { 'msg-input': ev.target.value };
     if (ev.target.value === '') {
+      if (ev.keyCode === enter) ev.preventDefault();
       setIsEmpty(true);
     } else {
       setIsEmpty(false);
@@ -214,6 +220,7 @@ export const Chat = memo(() => {
       isEdit: false,
       star: [],
       likes: [],
+      ticket: makeIdWithLetters(10),
     };
     elInput.current.value = '';
     socketService.emit('room newMsg', newMsg);

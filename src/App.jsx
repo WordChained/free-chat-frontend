@@ -43,7 +43,6 @@ function App() {
     } else {
       dispatch(setReady(true));
     }
-    return () => {};
     //eslint-disable-next-line
   }, []);
 
@@ -89,13 +88,13 @@ function App() {
           <Switch>
             {/* <PrivateRoute path="/rooms/:id" component={Room} /> */}
             <PrivateRoute path="/rooms/:id" component={Room} />
-            <PrivateRoute path="/rooms" component={Rooms} />
-            <PrivateRoute path="/about" component={About} />
-            <PrivateRoute path="/free-chat" component={PrivateRoom} />
             <RegisteredUserRoute
               path="/myProfile/:id"
               component={UserProfile}
             />
+            <PrivateRoute path="/rooms" component={Rooms} />
+            <PrivateRoute path="/about" component={About} />
+            <PrivateRoute path="/free-chat" component={PrivateRoom} />
             <NoneUsers path="/:landingPage" component={LandingPage} />
             <PrivateRoute path="/" component={MainPage} />
           </Switch>

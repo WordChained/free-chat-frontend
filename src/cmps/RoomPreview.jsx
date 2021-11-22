@@ -25,7 +25,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
 
   const routeToRoom = () => {
     dispatch(setCurrRoom(room));
-    history.push(`/rooms/${room._id}`);
+    history.push(`${room._id}`);
     socketService.emit('room topic', { topic: room._id, uid: user._id });
     socketService.emit('check-num-of-users', room._id);
   };
@@ -70,6 +70,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
       });
     else return date.toLocaleDateString('he-IL');
   };
+
   return (
     <Fragment>
       <td className="room-name" onClick={routeToRoom}>

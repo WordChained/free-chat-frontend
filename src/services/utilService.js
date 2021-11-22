@@ -7,6 +7,14 @@ export function makeId(length = 5) {
     }
     return text;
 }
+export function makeIdWithLetters(length = 5) {
+    var text = "";
+    var possible = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPUVWXYZ";
+    for (var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
 
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);

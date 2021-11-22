@@ -2,7 +2,6 @@ const INITIAL_STATE = {
     rooms: null,
     filteredRooms: null,
     currRoom: null,
-    // usersInCurrRoom: null,
     currPrivateRoom: null,
     filterBy: { topic: '', description: '', tags: [], name: '' },
 

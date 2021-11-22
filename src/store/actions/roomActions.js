@@ -1,6 +1,6 @@
 import { httpService } from '../../services/httpService.js';
 // import { socketService } from '../../services/socketService.js';
-import { getRandomIntInclusive } from '../../services/utilService.js';
+// import { getRandomIntInclusive } from '../../services/utilService.js';
 
 
 export const query = (filterBy) => {
@@ -10,7 +10,6 @@ export const query = (filterBy) => {
     }
 
 }
-
 export const setCurrRoom = (room) => {
     return dispatch => {
         // socketService.emit('room updated', room)
@@ -20,7 +19,7 @@ export const setCurrRoom = (room) => {
 export const setCurrRoomById = (roomId) => {
     return async dispatch => {
         try {
-            const room = await httpService.get(`room/${roomId}`)
+            const room = roomId ? await httpService.get(`room/${roomId}`) : null
             // socketService.emit('room updated', room)
             dispatch({ type: 'SET_CURR_ROOM', room })
         } catch (err) {

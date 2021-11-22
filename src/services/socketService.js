@@ -9,13 +9,11 @@ export const socketService = createSocketService()
 
 
 socketService.setup()
-
-
 function createSocketService() {
     let socket = null;
     const socketService = {
         async setup() {
-            socket = io(baseUrl, { withCredentials: true, });
+            socket = io(baseUrl, { withCredentials: true });
         },
         on(eventName, cb) {
             socket.on(eventName, cb)
@@ -27,6 +25,7 @@ function createSocketService() {
         },
         emit(eventName, data) {
             // console.log('emit', socket);
+            // console.log('callbacks', socket._callbacks);
             socket.emit(eventName, data)
             // socket.on(eventName, data)
         },

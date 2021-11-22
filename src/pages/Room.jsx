@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useMemo, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import {
@@ -16,19 +16,19 @@ import onlineUsers from '../assets/imgs/online-users.png';
 import { getLoggedinUser } from '../store/actions/userActions';
 
 export const Room = memo(() => {
-  const { currRoom, usersInCurrRoom } = useSelector(
-    (state) => state.roomModule
-  );
+  const { currRoom, currChatMsgs } = useSelector((state) => state.roomModule);
+  const _Chat = useMemo(() => <Chat />, [currChatMsgs]);
   const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const [usersInRoom, setUsersInRoom] = useState(usersInCurrRoom);
+  const [usersInRoom, setUsersInRoom] = useState(null);
   useEffect(() => {
     //5 renders for some reason...
-    if (!currRoom) dispatch(setCurrRoomById(id));
-    else {
+    if (!currRoom) {
+      dispatch(setCurrRoomById(id));
+    } else {
       socketService.emit('room topic refresh', {
         topic: currRoom._id,
         uid: getLoggedinUser()._id,
@@ -39,7 +39,7 @@ export const Room = memo(() => {
       setUsersInRoom(num);
     });
     return () => {
-      // dispatch(setCurrRoom(null));
+      dispatch(setCurrRoomById(id));
       // if (currRoom) {
       // console.log('left room');
       // socketService.emit('leave room', currRoom._id);
@@ -54,6 +54,7 @@ export const Room = memo(() => {
       topic: currRoom._id,
       uid: getLoggedinUser()._id,
     });
+    dispatch(setCurrRoomById(null));
     // dispatch(setCurrRoom(null));
   };
   if (!currRoom)
@@ -82,7 +83,7 @@ export const Room = memo(() => {
           <img src={back} alt="back-btn" />
         </button>
       </div>
-      {(loggedInUser || guestUser) && <Chat />}
+      {(loggedInUser || guestUser) && _Chat}
     </div>
   );
 });
