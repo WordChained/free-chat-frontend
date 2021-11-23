@@ -254,13 +254,21 @@
           display: none;
         }
       }
-    }
-    .user-count {
-      height: 70px;
-      width: 60px;
-    }
-    .back-btn {
-      position: absolute;
+      .back-btn {
+        // position: absolute;
+        // right: 70px;
+        // top: 80px;
+        // z-index: 9;
+        box-shadow: white 0 0 3px;
+        img {
+          filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(106deg)
+            brightness(102%) contrast(102%);
+        }
+      }
+      .user-count {
+        height: 70px;
+        width: 60px;
+      }
     }
   }
 }
