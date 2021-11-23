@@ -85,6 +85,7 @@ function App() {
       <Router>
         {(loggedInUser || guestUser) && <AppHeader />}
         <main className="App">
+          <div className="background-image"></div>
           <Switch>
             {/* <PrivateRoute path="/rooms/:id" component={Room} /> */}
             <PrivateRoute path="/rooms/:id" component={Room} />

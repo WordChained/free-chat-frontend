@@ -2,8 +2,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
-  margin-top: 20px;
+  //   justify-content: space-between;
+  padding: 20px 0 20px 0;
+  min-height: 65vh;
+  overflow: auto;
   .block-preview {
     padding: 10px 20px 10px 20px;
     border-radius: 10px;
@@ -13,6 +15,9 @@
     background-color: rgb(92, 103, 105);
     border: 2px black solid;
     align-items: center;
+    height: 300px;
+    width: 220px;
+    justify-content: space-between;
     img {
       max-width: 100px;
     }
@@ -28,9 +33,21 @@
     .actions {
       border: 1px white solid;
       border-radius: 3em;
+      width: 80%;
+      background-color: darken(rgb(92, 103, 105), 10%);
       img {
         max-width: 30px;
       }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .blocks-list {
+    align-items: center;
+    justify-content: center;
+    .block-preview {
+      width: 90%;
     }
   }
 }

@@ -11,9 +11,19 @@
       margin-left: unset;
       padding-right: 30px;
     }
-    .emoji-group:before {
+    .emoji-group::before {
       display: flex;
-      background: none;
+      background: rgba(255, 255, 255, 0.39);
+      border-radius: 3em;
+      justify-content: center;
+      color: black;
     }
+  }
+}
+
+@media (max-width: 500px) {
+  .emoji-window-container {
+    right: 10px;
+    bottom: 60px;
   }
 }

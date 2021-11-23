@@ -77,7 +77,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
         <Link to={`rooms/${room._id}`}>{room.name}</Link>
       </td>
       <td>{room.topic}</td>
-      <td>{room.type}</td>
+
       {/* <td>{room.limit}</td> */}
       {/* <td>
         {room.restrictions.length ? room.restrictions.join(', ') : 'none'}
@@ -89,6 +89,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
           <span>Nothing yet!</span>
         )}
       </td>
+      <td>{room.type}</td>
       <td className="actions">
         <img src={edit} alt="edit-btn" onClick={editRoom} />
         <img

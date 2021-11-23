@@ -21,10 +21,10 @@ export const RoomList = ({ rooms, viewType }) => {
             <tr>
               <th>Name</th>
               <th>topic</th>
-              <th>type</th>
               {/* <th>Limit</th> */}
               {/* <th>Restrictions</th> */}
               <th>last Message</th>
+              <th>type</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -49,6 +49,7 @@ export const RoomList = ({ rooms, viewType }) => {
           {rooms.map((room) => {
             return (
               <RoomBlockPreview
+                key={room._id}
                 room={room}
                 user={getLoggedinUser()}
                 exit={setShowRoomEdit}

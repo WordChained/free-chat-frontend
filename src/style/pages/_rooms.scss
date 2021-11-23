@@ -41,7 +41,7 @@
       text-align: start;
       background-color: #394152;
       margin-top: 20px;
-      overflow-x: hidden;
+      overflow-x: auto;
       overflow-y: auto;
       border-radius: 20px;
     }
@@ -136,6 +136,13 @@
       align-items: center;
       .free-search-form {
         align-self: unset;
+      }
+    }
+    .rooms-list {
+      width: 100%;
+      &.table {
+        border: hidden;
+        border-radius: 5px;
       }
     }
   }

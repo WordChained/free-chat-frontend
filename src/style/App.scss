@@ -24,21 +24,32 @@
   src: url('../assets/fonts/AngelRhapsodyRegular-ZVGJz.ttf');
 }
 .App {
+  // overflow: hidden;
   background-color: #282c34;
-  // height: 100vh;
+  // background-image: url('../assets/background/mountains.png');
+  // object-fit: cover;
+  // background-repeat: no-repeat;
+  // background-attachment: scroll;
   min-height: 88.3vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // align-items: center;
-  // justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
   position: relative;
-  // overflow-y: hidden;
+  .background-image {
+    background-image: url('../assets/background/mountains-HD.png');
+    background-repeat: no-repeat;
+    object-fit: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+  }
 }
 * {
   box-sizing: border-box;
@@ -46,7 +57,7 @@
 html {
   scroll-behavior: smooth;
   background-color: #282c34;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 button,

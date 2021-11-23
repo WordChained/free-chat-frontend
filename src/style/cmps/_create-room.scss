@@ -1,4 +1,7 @@
 .create-room {
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
   position: fixed;
   transition: all 0.3s linear;
   left: 50%;
@@ -13,6 +16,7 @@
   align-items: center;
   height: 60vh;
   width: 30vw;
+  min-width: max-content;
   border-radius: 10px;
   animation: appear-from-left 0.3s ease-in 1;
   // overflow: hidden;
@@ -30,6 +34,19 @@
     align-items: center;
   }
   form {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 90%;
+    width: 95%;
+    border-radius: 10px;
+    border: white 1px solid;
+    padding: 10px;
+    min-width: max-content;
+
     input,
     select {
       border: hsl(0, 0%, 80%) solid 1px;
@@ -53,17 +70,7 @@
       outline: none;
       border: none;
     }
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    text-align: start;
-    align-items: flex-start;
-    justify-content: space-between;
-    height: 85%;
-    width: 80%;
-    border-radius: 10px;
-    border: white 1px solid;
-    padding: 10px;
+
     .room-image-preview {
       height: 60px;
     }
@@ -122,5 +129,14 @@
     overflow: hidden;
     height: 0;
     left: 100vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .create-room {
+    height: 85vh;
+    width: 90vw;
+    top: 80%;
+    transform: translate(-50%, -80%);
   }
 }

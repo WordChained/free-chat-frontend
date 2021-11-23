@@ -178,3 +178,18 @@
     }
   }
 }
+@media (max-width: 500px) {
+  .msgs-container {
+    padding: 4px;
+    .single-msg {
+      gap: 5px;
+      [name='single-msg-txt'] {
+        font-size: 1rem;
+        max-width: 30ch;
+      }
+      .user-img {
+        padding: 2px;
+      }
+    }
+  }
+}
