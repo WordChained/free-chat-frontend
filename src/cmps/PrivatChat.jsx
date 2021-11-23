@@ -1,4 +1,11 @@
-import { memo, useEffect, useState, useRef, Fragment } from 'react';
+import {
+  memo,
+  useEffect,
+  useState,
+  useRef,
+  Fragment,
+  useLayoutEffect,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,6 +20,7 @@ import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
 import thinking from '../assets/imgs/thinking.png';
 import send from '../assets/imgs/send.png';
+import more from '../assets/imgs/more.png';
 // import edit from '../assets/imgs/edit.png';
 // import like2 from '../assets/imgs/like2.png';
 
@@ -40,6 +48,20 @@ import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 
 export const PrivateChat = memo(({ topics }) => {
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
+  const [width, height] = useWindowSize();
+
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
@@ -58,6 +80,7 @@ export const PrivateChat = memo(({ topics }) => {
   const [isEmojiWindownOpen, setIsEmojiWindownOpen] = useState(false);
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
+  const [moreOptions, setMoreOptions] = useState(false);
 
   const [currChatId, setCurrChatId] = useState(null);
 
@@ -312,7 +335,7 @@ export const PrivateChat = memo(({ topics }) => {
             <AlwaysScrollToBottom msgs={currChatMsgs.length} />
           </div>
         )}
-        <div className="typing-line">
+        <div className={`typing-line ${moreOptions ? 'more' : ''}`}>
           <button className="new-stranger-btn" onClick={lookForNewChat}>
             New Stranger
           </button>
@@ -327,12 +350,27 @@ export const PrivateChat = memo(({ topics }) => {
               className={isEmpty ? '' : 'allowed'}
               onKeyUp={checkIsEmpty}
               onKeyDown={checkIsEmpty}
+              placeholder={
+                width > 500
+                  ? 'Ctrl + Enter to add a line...'
+                  : 'Send a message...'
+              }
             />
             <button type="submit" className={isEmpty ? '' : 'allowed'}>
               <img className={isEmpty ? '' : 'allowed'} src={send} alt="send" />
             </button>
           </form>
-          <div className="chat-btns">
+          {width < 500 && (
+            <button className="more">
+              <img
+                className="more-icon"
+                onClick={() => setMoreOptions(!moreOptions)}
+                src={more}
+                alt="more"
+              />
+            </button>
+          )}
+          <div className={`chat-btns ${moreOptions ? 'more' : ''}`}>
             <span> | </span>
             <img
               src={cogwheel}

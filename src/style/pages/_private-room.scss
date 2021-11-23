@@ -49,3 +49,16 @@
     }
   }
 }
+@media (max-width: 500px) {
+  .private-room-container {
+    .chat-container {
+      .typing-line {
+        &.more {
+          form {
+            width: 29%;
+          }
+        }
+      }
+    }
+  }
+}
