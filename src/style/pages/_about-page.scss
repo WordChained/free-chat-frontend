@@ -1,3 +1,25 @@
 .about-page {
   display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  z-index: 1;
+  & > *:not(.icons) {
+    background-color: rgba(0, 0, 0, 0.479);
+  }
+  h2 {
+    color: white;
+  }
+  p {
+    text-align: justify;
+    padding: 5px;
+    margin: 4px;
+  }
+  .icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    img {
+      width: 40vw;
+    }
+  }
 }

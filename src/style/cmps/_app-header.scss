@@ -115,31 +115,39 @@
       }
     }
   }
-  .app-header .main-nav .user-links.open {
-    position: static;
-    order: -1;
-    border-radius: unset;
-    width: 100%;
-    height: 70px;
-    .user-dropdown {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-    }
-    .dropdown {
-      width: 100%;
-      a {
-        width: 100%;
+  .app-header .main-nav .user-links {
+    &.guest {
+      .reg-btns {
+        border: none;
+        align-self: center;
       }
     }
-    .corgwheel {
-      height: 30px;
+    &.open {
+      position: static;
+      order: -1;
+      border-radius: unset;
+      width: 100%;
+      height: 70px;
+      .user-dropdown {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      .dropdown {
+        width: 100%;
+        a {
+          width: 100%;
+        }
+      }
+      .corgwheel {
+        height: 30px;
+      }
+      img {
+        animation: none;
+      }
+      // left: 2px;
+      // top: 2px;
     }
-    img {
-      animation: none;
-    }
-    // left: 2px;
-    // top: 2px;
   }
 }
 
