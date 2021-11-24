@@ -1,0 +1,21 @@
+.general-user-msg {
+  transition: all 0.7s ease-in-out;
+  position: absolute;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.795);
+  border: solid 1px;
+  border-radius: 10px;
+  width: 300px;
+  height: 100px;
+  //   top: 40px;
+  font-size: 1.2rem;
+  top: -300px;
+  z-index: 2;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: black;
+  &.show {
+    top: 40px;
+  }
+}

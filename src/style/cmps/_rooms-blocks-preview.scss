@@ -12,7 +12,13 @@
     display: flex;
     gap: 7px;
     flex-direction: column;
-    background-color: rgb(92, 103, 105);
+    background: rgb(92, 103, 105);
+    background: linear-gradient(
+      321deg,
+      rgba(142, 142, 142, 1) 1%,
+      rgba(40, 88, 119, 1) 27%,
+      rgba(34, 82, 65, 1) 94%
+    );
     border: 2px black solid;
     align-items: center;
     height: 300px;

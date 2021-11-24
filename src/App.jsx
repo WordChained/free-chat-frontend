@@ -28,6 +28,8 @@ import { PrivateRoom } from './pages/PrivateRoom';
 //cmps
 import { AppFooter } from './cmps/AppFooter';
 import { AppHeader } from './cmps/AppHeader';
+import { UserMsg } from './cmps/UserMsg';
+
 function App() {
   const dispatch = useDispatch();
   const { loggedInUser, ready, guestUser } = useSelector(
@@ -85,6 +87,7 @@ function App() {
       <Router>
         {(loggedInUser || guestUser) && <AppHeader />}
         <main className="App">
+          <UserMsg />
           <div className="background-image"></div>
           <Switch>
             {/* <PrivateRoute path="/rooms/:id" component={Room} /> */}

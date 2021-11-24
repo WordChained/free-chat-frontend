@@ -15,6 +15,7 @@ import {
   removeMsg,
   // editMsg,
 } from '../store/actions/chatActions';
+import { eventBusService } from '../services/eventBusService';
 export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
   const dispatch = useDispatch();
   const { currRoom } = useSelector((state) => state.roomModule);
@@ -39,11 +40,11 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       return;
     }
     if (msg.star.includes(currUser._id)) {
-      console.log('star toggle off');
+      eventBusService.emit('userMsg', { msg: 'Message was un-starred!' });
       dispatch(unStarMsg(room._id, msg.uid, msg.id, currRoom));
       // setJustStarred(false);
     } else {
-      console.log('star toggle on');
+      eventBusService.emit('userMsg', { msg: 'Message was starred!' });
       dispatch(starMsg(room._id, msg.uid, msg.id, currRoom));
       // setJustStarred(true);
     }
@@ -56,11 +57,11 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
       return;
     }
     if (msg.likes.includes(currUser._id)) {
-      console.log('like toggle off');
+      eventBusService.emit('userMsg', { msg: 'Message was un-liked!' });
       dispatch(unLikeMsg(room._id, msg.uid, msg.id, currRoom));
       // setJustLike(false);
     } else {
-      console.log('like toggle on');
+      eventBusService.emit('userMsg', { msg: 'Message was liked!' });
       dispatch(likeMsg(room._id, msg.uid, msg.id, currRoom));
       // setJustLike(true);
     }
@@ -76,6 +77,7 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
     )
       return;
     console.log('onRemoveMsg, msgId:', msgId);
+    eventBusService.emit('userMsg', { msg: 'Message was removed' });
     dispatch(removeMsg(msgId, currRoom._id));
   };
 

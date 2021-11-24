@@ -1,4 +1,5 @@
 import { storageService } from '../../services/async-storage.service'
+import { eventBusService } from '../../services/eventBusService'
 import { httpService } from '../../services/httpService'
 // import { socketService } from '../../services/socketService'
 import { makeId } from '../../services/utilService'
@@ -84,6 +85,7 @@ export const login = (userCred, isGuest = false) => {
             _saveLocalUser(user)
             dispatch({ type: 'LOGIN_GUEST', user })
             dispatch({ type: 'GET_USERS' })
+            eventBusService.emit('userMsg', 'Welcome, guest!');
         }
         else {
             try {
@@ -91,9 +93,19 @@ export const login = (userCred, isGuest = false) => {
                 if (user) _saveLocalUser(user)
                 dispatch({ type: 'LOGIN', user })
                 dispatch({ type: 'GET_USERS' })
+                eventBusService.emit('userMsg', { msg: `Welcome, ${user.userName}!` });
 
             } catch (err) {
                 console.log('login error:', err);
+                if (err.response.status === 401) {
+                    eventBusService.emit('userMsg', (
+                        {
+                            msg: `Sorry, either the details you entered are wrong, or you need to signup!`,
+                            time: 4000
+                        }
+                    )
+                    )
+                };
                 dispatch({ type: 'LOGIN_ERROR', isWrong: true })
             }
         }

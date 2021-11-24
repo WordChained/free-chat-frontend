@@ -38,6 +38,7 @@ export const PrivateRoom = () => {
     // };
     //eslint-disable-next-line
   }, []);
+
   const _PrivateChat = useMemo(
     () => <PrivateChat topics={topics} />,
     [currChatMsgs]

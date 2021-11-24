@@ -1,3 +1,4 @@
+import { eventBusService } from '../../services/eventBusService.js';
 import { httpService } from '../../services/httpService.js';
 import { getLoggedinUser } from './userActions.js';
 export const addMsg = (roomId, msg, uid, name, isEdit, star, likes, ticket) => {
@@ -144,7 +145,6 @@ export const getPrivateMsgs = (chatId) => {
         try {
             // const room = await httpService.get(`room/${roomId}`)
             const msgs = chatId ? await httpService.get(`room/private-chat/${chatId}`) : []
-            console.log('msgs in getPrivateMsgs:', msgs);
             dispatch({ type: 'SET_PRIVATE_MSGS', msgs })
         } catch (err) {
             console.log('getPrivateMsgs error:', err);
@@ -172,6 +172,7 @@ export const removeMsg = (msgId, roomId) => {
         try {
             console.log(roomId);
             await httpService.delete(`room/chat/${roomId}`, { msgId, roomId })
+            eventBusService.emit('userMsg', { msg: `The message was removed!` });
             dispatch({ type: 'REMOVE_MSG', msgId })
         } catch (err) {
             console.log('error in remove msg:', err);
@@ -182,6 +183,7 @@ export const editMsg = (msgId, roomId) => {
     return async dispatch => {
         try {
             // await httpService.post(`room/chat/${roomId}`, msgId)
+            // eventBusService.emit('userMsg', { msg: `The message was edited!` });
             // dispatch({ type: 'EDIT_MSG', msgId })
         } catch (err) {
             console.log('error in remove msg:', err);

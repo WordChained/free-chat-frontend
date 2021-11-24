@@ -1,4 +1,23 @@
 .rooms-page {
+  .go-up-btn {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.541);
+    border-radius: 100%;
+    padding: 10px;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    img {
+      padding: 5px;
+      height: 40px;
+      opacity: 0.7;
+    }
+  }
   position: relative;
   .view-type-toggler {
     margin-top: 20px;

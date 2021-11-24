@@ -77,7 +77,7 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   return (
     <div className="block-preview">
       <img src={room.imgUrl ? room.imgUrl : defaultRoomImg} alt="room-img" />
-      <span>
+      <span onClick={routeToRoom}>
         Name: <Link to={`rooms/${room._id}`}>{room.name}</Link>
       </span>
       <span>Topic: {room.topic}</span>

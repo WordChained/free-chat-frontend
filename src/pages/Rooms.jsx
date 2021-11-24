@@ -20,6 +20,7 @@ import { socketService } from '../services/socketService';
 //icons
 import tableIcon from '../assets/imgs/table.png';
 import blocksIcon from '../assets/imgs/blocks.png';
+import goBackUp from '../assets/imgs/up.png';
 
 export const Rooms = memo(() => {
   const {
@@ -32,8 +33,8 @@ export const Rooms = memo(() => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const [usersInRoom, setUsersInRoom] = useState(0);
-  const [viewType, setViewType] = useState('table');
-
+  const [viewType, setViewType] = useState('blocks');
+  const [showReturnUpBtn, setShowReturnUpBtn] = useState(false);
   const [showRoomCreation, setShowRoomCreation] = useState(false);
 
   useEffect(() => {
@@ -41,7 +42,17 @@ export const Rooms = memo(() => {
     // eslint-disable-next-line
   }, [filterBy]);
 
+  const trackScroll = () => {
+    const scrollPos = window.scrollY;
+    if (scrollPos > 235) {
+      setShowReturnUpBtn(true);
+    } else {
+      setShowReturnUpBtn(false);
+    }
+  };
+
   useEffect(() => {
+    document.addEventListener('scroll', trackScroll);
     if (currRoom) {
       socketService.on('users-in-room', (num) => {
         setUsersInRoom(num);
@@ -50,6 +61,9 @@ export const Rooms = memo(() => {
       //only making currRoom null now so ill have the room id to send to the sockets
       dispatch(setCurrRoom(null));
     }
+    return () => {
+      document.removeEventListener('scroll', trackScroll);
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -81,6 +95,11 @@ export const Rooms = memo(() => {
     );
   return (
     <div className="rooms-page">
+      {showReturnUpBtn && (
+        <button className="go-up-btn" onClick={() => window.scrollTo(0, 0)}>
+          <img src={goBackUp} alt="go-back-up" />
+        </button>
+      )}
       <div className="forms">
         <form
           className="free-search-form"

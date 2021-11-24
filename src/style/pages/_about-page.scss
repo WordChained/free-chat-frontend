@@ -18,8 +18,19 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    padding: 40px;
+    justify-content: space-around;
     img {
       width: 40vw;
+      max-width: 256px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .about-page {
+    .icons {
+      padding: 10px;
     }
   }
 }

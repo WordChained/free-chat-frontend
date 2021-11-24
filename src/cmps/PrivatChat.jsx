@@ -102,7 +102,7 @@ export const PrivateChat = memo(({ topics }) => {
       topics: topicsToSocket.length ? topicsToSocket : ['freeChat-freeSearch'],
     });
     socketService.on('private-room-enter-msg', (enterMsg) => {
-      console.log('enterMsg:', enterMsg);
+      // console.log('enterMsg:', enterMsg);
       setFirstMsg(enterMsg);
     });
     if (!users) {
@@ -116,7 +116,7 @@ export const PrivateChat = memo(({ topics }) => {
     }
     setSent(true);
     socketService.on('create-private-chat', (chatId) => {
-      console.log('chatId in create-private-chat:', chatId);
+      // console.log('chatId in create-private-chat:', chatId);
       setCurrChatId(chatId);
       dispatch(createPrivateChat(chatId));
       // dispatch(getPrivateMsgs(chatId));
@@ -131,19 +131,16 @@ export const PrivateChat = memo(({ topics }) => {
     return () => {
       dispatch(getPrivateMsgs(null));
       socketService.off('private-room-add-msg');
-      // socketService.emit('leave-private-room', {
-      //   uid: getLoggedinUser()._id,
-      //   topics: topicsToSocket,
-      // });
+      if (currChatId) {
+        socketService.emit('leave-private-room', {
+          uid: getLoggedinUser()._id,
+          topics: topicsToSocket,
+        });
+        dispatch(deletePrivateChat(currChatId));
+      }
     };
 
     //eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    console.log('change in currChatId. currChatId:', currChatId);
-    return () => {
-      if (currChatId) dispatch(deletePrivateChat(currChatId));
-    };
   }, [currChatId]);
 
   const getSenderInfo = (type, msg) => {
@@ -157,8 +154,6 @@ export const PrivateChat = memo(({ topics }) => {
 
   const onSubmit = (data) => {
     if (!data['msg-input']) return;
-    // console.log('currUser is the sender...', currUser);
-    // console.log('msg-input:', data['msg-input']);
     const nameToAttatch = currUser.sex === 'guest' ? 'fullName' : 'userName';
     const newMsg = {
       text: data['msg-input'],
@@ -250,7 +245,7 @@ export const PrivateChat = memo(({ topics }) => {
     }
   };
 
-  if (!currUser || !users || !ready || !currChatId)
+  if (!currUser || !users || !ready)
     return (
       <div className="lds-ripple">
         <div></div>
