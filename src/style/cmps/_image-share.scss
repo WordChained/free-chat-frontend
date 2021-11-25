@@ -1,0 +1,129 @@
+.image-share-window {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(76, 187, 150);
+  color: black;
+  padding: 10px;
+  gap: 10px;
+  border-radius: 10px;
+  min-height: 50vh;
+  height: 70vh;
+  width: 55%;
+  border: 2px solid;
+  h4 {
+    padding: 0;
+    margin: 2px;
+  }
+  .unsplash-list {
+    padding: 10px;
+    background: rgb(142, 142, 142);
+    background: linear-gradient(
+      321deg,
+      rgba(142, 142, 142, 1) 1%,
+      rgba(40, 88, 119, 1) 75%,
+      rgba(34, 82, 65, 1) 94%
+    );
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: space-around;
+    gap: 15px;
+    height: 60%;
+    width: 95%;
+    align-self: center;
+    border-radius: 5px;
+    .container {
+      max-height: 170px;
+      img {
+        max-height: 100%;
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 8px 8px 6px rgb(49, 49, 49);
+      }
+    }
+  }
+  .close {
+    align-self: flex-end;
+  }
+  .unsplash-form {
+    display: flex;
+    gap: 5px;
+    input {
+      width: 50%;
+      height: 40px;
+      border-radius: 3em;
+      border: none;
+      padding: 0 10px 0 10px;
+      &:focus {
+        outline: rgb(10, 157, 177) 2px solid;
+      }
+    }
+    button {
+      border-radius: 3em;
+      border: none;
+      box-shadow: 0 0 4px rgb(125, 149, 144);
+      &:hover {
+        background-color: rgb(94, 221, 243);
+      }
+    }
+  }
+  .upload-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    label {
+      font-size: 1rem;
+      background-color: white;
+      padding: 8px;
+      border-radius: 3em;
+      box-shadow: 0 0 4px rgb(125, 149, 144);
+      cursor: pointer;
+      &:hover {
+        background-color: rgb(94, 221, 243);
+      }
+    }
+    .upload-input {
+      display: none;
+    }
+  }
+
+  .upload-preview {
+    display: flex;
+    align-self: center;
+    height: 150px;
+    border-radius: 10px;
+    gap: 20px;
+    .img-container {
+      overflow: hidden;
+      max-height: 200px;
+      max-width: 150px;
+      border-radius: 10px;
+      img {
+        max-height: 200px;
+        max-width: 150px;
+        border-radius: 10px;
+      }
+    }
+    .send-btn {
+      border-radius: 3em;
+      background-color: #fff;
+      border: none;
+      box-shadow: 0 0 4px rgb(125, 149, 144);
+      padding: 10px 20px 10px 20px;
+      width: max-content;
+      align-self: self-end;
+      &:hover {
+        background-color: rgb(94, 221, 243);
+      }
+    }
+    .preview-loader {
+      position: unset;
+      width: 100px;
+      height: 30px;
+    }
+  }
+}

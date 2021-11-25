@@ -43,6 +43,7 @@ import { EmojiWindow } from './EmojiWindow';
 import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 import { makeIdWithLetters } from '../services/utilService';
+import { ImageShare } from './ImageShare';
 
 export const Chat = memo(() => {
   function useWindowSize() {
@@ -76,12 +77,15 @@ export const Chat = memo(() => {
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
   const [moreOptions, setMoreOptions] = useState(false);
+  const [imageShareState, setImageShareState] = useState(false);
+
   const [currMsgToEdit, setCurrMsgToEdit] = useState({
     edit: false,
     msgId: null,
   });
 
   const currUser = getLoggedinUser();
+
   useEffect(() => {
     // socketService.emit('room topic', currRoom._id);
     console.log('times Chat is rendered');
@@ -129,6 +133,26 @@ export const Chat = memo(() => {
     // console.log('value:', elInput.current.value);
     elInput.current.value = elInput.current.value + emoji;
   };
+  const addImg = (imgUrl) => {
+    // elInput.current.value = imgUrl;
+    const data = { 'msg-input': imgUrl };
+    onSubmit(data);
+  };
+  const urlRegex =
+    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  const linkify = (text) => {
+    return text.replace(urlRegex, (url) => {
+      return `<a href=${url} target="_blank">${url}</a>`;
+    });
+  };
+  const picturfy = (text) => {
+    return text.replace(urlRegex, (url) => {
+      return `<img src="${url}"/>`;
+    });
+  };
+  function checkIfImg(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
 
   const msgsContainer = useRef();
   // const onChangeBackgroundImg = (image) => {
@@ -344,7 +368,15 @@ export const Chat = memo(() => {
                       ? getSenderInfo('userName', msg)
                       : msg.name}
                   </span>
-                  {msg.text}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: checkIfImg(msg.text)
+                        ? `<img src=${msg.text} />`
+                        : msg.text.includes('images.unsplash')
+                        ? picturfy(msg.text)
+                        : linkify(msg.text).trim(),
+                    }}
+                  ></span>
                   <span className="sent-at">
                     {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
                       hour: '2-digit',
@@ -433,7 +465,9 @@ export const Chat = memo(() => {
             />
           )}
           {isEmojiWindownOpen && <EmojiWindow addEmoji={addEmoji} />}
-          {isAttachWindowOpen && <AttachWindow />}
+          {isAttachWindowOpen && (
+            <AttachWindow setImageShareState={setImageShareState} />
+          )}
         </div>
       </div>
       {isBackgroundPickerOpen && (
@@ -441,6 +475,9 @@ export const Chat = memo(() => {
           backgroundPicker={setIsBackgroundPickerOpen}
           room={currRoom}
         />
+      )}
+      {imageShareState && (
+        <ImageShare setImageShareState={setImageShareState} addImg={addImg} />
       )}
     </Fragment>
   );

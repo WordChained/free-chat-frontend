@@ -112,6 +112,12 @@
       word-wrap: nowrap;
       text-align: start;
       order: 1;
+      word-break: break-all;
+      img {
+        padding: 10px;
+        max-height: 200px;
+        max-width: 300px;
+      }
       .like-count {
         position: absolute;
         bottom: 0;

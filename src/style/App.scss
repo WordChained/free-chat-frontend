@@ -10,8 +10,9 @@
 @import './cmps/chat-settings';
 @import './cmps/attach-window';
 @import './cmps/emoji-window';
-@import './cmps/background-picker.scss';
-@import './cmps/_rooms-blocks-preview.scss';
+@import './cmps/_background-picker.scss';
+@import './cmps/rooms-blocks-preview';
+@import './cmps/image-share';
 
 @import './pages/main-page';
 @import './pages/rooms';

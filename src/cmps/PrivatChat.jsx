@@ -46,6 +46,7 @@ import { ChatSettings } from './ChatSettings';
 import { EmojiWindow } from './EmojiWindow';
 import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
+import { ImageShare } from './ImageShare';
 
 export const PrivateChat = memo(({ topics }) => {
   function useWindowSize() {
@@ -80,6 +81,8 @@ export const PrivateChat = memo(({ topics }) => {
   const [isEmojiWindownOpen, setIsEmojiWindownOpen] = useState(false);
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
+  const [imageShareState, setImageShareState] = useState(false);
+
   const [moreOptions, setMoreOptions] = useState(false);
 
   const [currChatId, setCurrChatId] = useState(null);
@@ -244,6 +247,28 @@ export const PrivateChat = memo(({ topics }) => {
         break;
     }
   };
+  const urlRegex =
+    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  const addImg = (imgUrl) => {
+    // console.log('value:', elInput.current.value);
+    // console.log('the image i wanna add:', imgUrl);
+    elInput.current.value = elInput.current.value + ' ' + imgUrl;
+  };
+
+  const linkify = (text) => {
+    return text.replace(urlRegex, (url) => {
+      return `<a href=${url} target="_blank">${url}</a>`;
+    });
+  };
+
+  const picturfy = (text) => {
+    return text.replace(urlRegex, (url) => {
+      return `<img src="${url}"/>`;
+    });
+  };
+  function checkIfImg(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
 
   if (!currUser || !users || !ready)
     return (
@@ -314,7 +339,17 @@ export const PrivateChat = memo(({ topics }) => {
                       ? getSenderInfo('userName', msg)
                       : msg.name}
                   </span>
-                  {msg.text}
+                  {/* the text of the msg */}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: checkIfImg(msg.text)
+                        ? `<img src=${msg.text} />`
+                        : msg.text.includes('images.unsplash')
+                        ? picturfy(msg.text)
+                        : linkify(msg.text).trim(),
+                    }}
+                  ></span>
+                  {/* ^^^^^^^^ checks if image or just text^^^^^^ */}
                   <span className="sent-at">
                     {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
                       hour: '2-digit',
@@ -400,6 +435,9 @@ export const PrivateChat = memo(({ topics }) => {
           backgroundPicker={setIsBackgroundPickerOpen}
           room={currPrivateRoom}
         />
+      )}
+      {imageShareState && (
+        <ImageShare setImageShareState={setImageShareState} addImg={addImg} />
       )}
     </Fragment>
   );
