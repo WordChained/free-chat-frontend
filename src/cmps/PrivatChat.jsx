@@ -47,6 +47,7 @@ import { EmojiWindow } from './EmojiWindow';
 import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 import { ImageShare } from './ImageShare';
+import { GiphyComponent } from './GiphyComponent';
 
 export const PrivateChat = memo(({ topics }) => {
   function useWindowSize() {
@@ -82,6 +83,7 @@ export const PrivateChat = memo(({ topics }) => {
   const [isAttachWindowOpen, setIsAttachWindowOpen] = useState(false);
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
   const [imageShareState, setImageShareState] = useState(false);
+  const [gifShareState, setGifShareState] = useState(false);
 
   const [moreOptions, setMoreOptions] = useState(false);
 
@@ -270,6 +272,12 @@ export const PrivateChat = memo(({ topics }) => {
     return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
   }
 
+  const sendGif = (gif) => {
+    const data = { 'msg-input': gif.images.original.url };
+    onSubmit(data);
+    setGifShareState(false);
+  };
+
   if (!currUser || !users || !ready)
     return (
       <div className="lds-ripple">
@@ -344,7 +352,8 @@ export const PrivateChat = memo(({ topics }) => {
                     dangerouslySetInnerHTML={{
                       __html: checkIfImg(msg.text)
                         ? `<img src=${msg.text} />`
-                        : msg.text.includes('images.unsplash')
+                        : msg.text.includes('images.unsplash') ||
+                          msg.text.includes('giphy.com/media')
                         ? picturfy(msg.text)
                         : linkify(msg.text).trim(),
                     }}
@@ -438,6 +447,9 @@ export const PrivateChat = memo(({ topics }) => {
       )}
       {imageShareState && (
         <ImageShare setImageShareState={setImageShareState} addImg={addImg} />
+      )}
+      {gifShareState && (
+        <GiphyComponent sendGif={sendGif} setGifShareState={setGifShareState} />
       )}
     </Fragment>
   );

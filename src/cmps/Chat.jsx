@@ -44,6 +44,7 @@ import { AttachWindow } from './AttachWindow';
 import { BackgroundPicker } from './BackgroundPicker';
 import { makeIdWithLetters } from '../services/utilService';
 import { ImageShare } from './ImageShare';
+import { GiphyComponent } from './GiphyComponent';
 
 export const Chat = memo(() => {
   function useWindowSize() {
@@ -78,6 +79,7 @@ export const Chat = memo(() => {
   const [isBackgroundPickerOpen, setIsBackgroundPickerOpen] = useState(false);
   const [moreOptions, setMoreOptions] = useState(false);
   const [imageShareState, setImageShareState] = useState(false);
+  const [gifShareState, setGifShareState] = useState(false);
 
   const [currMsgToEdit, setCurrMsgToEdit] = useState({
     edit: false,
@@ -153,6 +155,11 @@ export const Chat = memo(() => {
   function checkIfImg(url) {
     return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
   }
+  const sendGif = (gif) => {
+    const data = { 'msg-input': gif.images.original.url };
+    onSubmit(data);
+    setGifShareState(false);
+  };
 
   const msgsContainer = useRef();
   // const onChangeBackgroundImg = (image) => {
@@ -372,7 +379,8 @@ export const Chat = memo(() => {
                     dangerouslySetInnerHTML={{
                       __html: checkIfImg(msg.text)
                         ? `<img src=${msg.text} />`
-                        : msg.text.includes('images.unsplash')
+                        : msg.text.includes('images.unsplash') ||
+                          msg.text.includes('giphy.com/media')
                         ? picturfy(msg.text)
                         : linkify(msg.text).trim(),
                     }}
@@ -466,7 +474,10 @@ export const Chat = memo(() => {
           )}
           {isEmojiWindownOpen && <EmojiWindow addEmoji={addEmoji} />}
           {isAttachWindowOpen && (
-            <AttachWindow setImageShareState={setImageShareState} />
+            <AttachWindow
+              setImageShareState={setImageShareState}
+              setGifShareState={setGifShareState}
+            />
           )}
         </div>
       </div>
@@ -478,6 +489,9 @@ export const Chat = memo(() => {
       )}
       {imageShareState && (
         <ImageShare setImageShareState={setImageShareState} addImg={addImg} />
+      )}
+      {gifShareState && (
+        <GiphyComponent sendGif={sendGif} setGifShareState={setGifShareState} />
       )}
     </Fragment>
   );

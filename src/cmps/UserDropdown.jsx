@@ -67,18 +67,21 @@ export const UserDropdown = ({ user, logout }) => {
               My Profile
             </Link>
           ) : (
-            <Link
-              className="item"
-              onClick={closeDropdown}
-              to={`/myProfile/${user.userName}`}
-            >
-              My Profile
-            </Link>
+            // <Link
+            //   className="item"
+            //   onClick={closeDropdown}
+            //   to={`/myProfile/${user.userName}`}
+            // >
+            //   My Profile
+            // </Link>
+            <span style={{ color: 'grey', padding: '10px' }}>
+              My Profile (IN DEV)
+            </span>
           )}
 
-          <Link className="item" onClick={closeDropdown} to="/myTattoos">
+          {/* <Link className="item" onClick={closeDropdown} to="/myTattoos">
             My List
-          </Link>
+          </Link> */}
 
           <div className="item" onClick={logout}>
             <span>Logout</span>

@@ -1,7 +1,7 @@
 .login-container,
 .signup-container {
   h3 {
-    color: rgb(25, 101, 136);
+    // color: rgb(88, 144, 170);
   }
   gap: 10px;
   display: flex;
@@ -10,7 +10,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(32, 179, 142);
+  // background-color: rgb(32, 179, 142);
+  background-color: rgba(0, 0, 0, 0.472);
   box-shadow: 0px 0px 1px 2px white;
   // height: 400px;
   padding: 10px;
@@ -84,7 +85,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .login-container {
     height: 50vh;
     justify-content: space-between;

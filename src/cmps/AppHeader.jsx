@@ -74,7 +74,7 @@ export const AppHeader = () => {
             <img className="logo" src={logo} alt="logo" />
           </Link>
           {width > 700 && <span> | </span>}
-          {width < 500 && (
+          {width < 600 && (
             <div
               id="nav-icon3"
               className={`${openNav ? 'open' : ''}`}

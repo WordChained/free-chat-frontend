@@ -112,7 +112,10 @@
       word-wrap: nowrap;
       text-align: start;
       order: 1;
-      word-break: break-all;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      overflow: hidden;
+      text-align: justify;
       img {
         padding: 10px;
         max-height: 200px;
@@ -184,7 +187,7 @@
     }
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .msgs-container {
     padding: 4px;
     .single-msg {
@@ -194,6 +197,11 @@
         max-width: 30ch;
         .edit-btn {
           display: block;
+        }
+        img {
+          padding: 2px;
+          max-height: 130px;
+          max-width: 200px;
         }
       }
       .user-img {

@@ -98,7 +98,7 @@ export const ImageShare = ({ setImageShareState, addImg }) => {
           placeholder="Search the Web"
           {...register('query')}
         />
-        <button type="submit">Search</button>
+        <button type="submit">GO!</button>
       </form>
       <div className="unsplash-list">
         {unsplashResults.map((res) => {
@@ -116,7 +116,9 @@ export const ImageShare = ({ setImageShareState, addImg }) => {
               <img src={imageToSend} alt="preview" />
             </div>
           ) : (
-            <div className="lds-ripple preview-loader">
+            <div class="lds-ring preview-loader">
+              <div></div>
+              <div></div>
               <div></div>
               <div></div>
             </div>

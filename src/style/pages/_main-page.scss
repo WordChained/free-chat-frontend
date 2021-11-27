@@ -113,7 +113,7 @@ $primary-color: rgb(73, 73, 73);
 //     transform: rotateX(0deg);
 //   }
 // }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .App {
     background-image: url('../../assets//background/mountains.png');
     height: 91vh;
@@ -122,6 +122,7 @@ $primary-color: rgb(73, 73, 73);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
+    padding: 2px !important;
     &.ready {
       height: 88.3vh;
     }
