@@ -85,7 +85,7 @@ export const login = (userCred, isGuest = false) => {
             _saveLocalUser(user)
             dispatch({ type: 'LOGIN_GUEST', user })
             dispatch({ type: 'GET_USERS' })
-            eventBusService.emit('userMsg', 'Welcome, guest!');
+            eventBusService.emit('userMsg', { msg: 'Welcome, guest!' });
         }
         else {
             try {
