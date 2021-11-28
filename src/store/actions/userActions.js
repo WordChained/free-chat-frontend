@@ -90,7 +90,7 @@ export const login = (userCred, isGuest = false) => {
         else {
             try {
                 //trying a get req
-                const user = await httpService.get('auth/login', userCred)
+                const user = await httpService.post('auth/login', userCred)
                 if (user) _saveLocalUser(user)
                 dispatch({ type: 'LOGIN', user })
                 dispatch({ type: 'GET_USERS' })
