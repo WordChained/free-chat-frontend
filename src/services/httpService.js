@@ -9,7 +9,7 @@ const BASE_URL = process.env.NODE_ENV === 'production'
 
 var axios = Axios.create({
     'Access-Control-Allow-Credentials': true,
-    withCredentials: true
+    // withCredentials: true
 })
 
 

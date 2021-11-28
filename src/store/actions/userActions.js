@@ -98,7 +98,7 @@ export const login = (userCred, isGuest = false) => {
 
             } catch (err) {
                 console.log('login error:', err);
-                if (err.response.status === 401) {
+                if (err.reponse && err.response.status === 401) {
                     eventBusService.emit('userMsg', (
                         {
                             msg: `Sorry, either the details you entered are wrong, or you need to signup!`,
