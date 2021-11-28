@@ -89,7 +89,8 @@ export const login = (userCred, isGuest = false) => {
         }
         else {
             try {
-                const user = await httpService.post('auth/login', userCred)
+                //trying a get req
+                const user = await httpService.get('auth/login', userCred)
                 if (user) _saveLocalUser(user)
                 dispatch({ type: 'LOGIN', user })
                 dispatch({ type: 'GET_USERS' })
@@ -191,13 +192,3 @@ export const setReady = (isReady) => {
 //     const user = getLoggedinUser()
 //     if (user) socketService.emit('set-user-socket', user._id)
 // })();
-
-// export const likedRoom = (song) => {
-//     const user = getLoggedinUser()
-//     try {
-//         await httpService.put(`/user/song/${user._id}`, song)
-//     } catch (err) {
-//         console.log('Error on user service => likedSong')
-//         throw err
-//     }
-// }
