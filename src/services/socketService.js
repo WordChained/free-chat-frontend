@@ -1,7 +1,8 @@
 import io from 'socket.io-client'
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
+// const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
+const baseUrl = ''
 //free-chat-frontend.herokuapp.com
 // "homepage": "https://free-chat-1.herokuapp.com",
 // "homepage": "https://free-chat-frontend.herokuapp.com",
