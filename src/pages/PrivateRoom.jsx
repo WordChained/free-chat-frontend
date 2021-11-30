@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { useDispatch } from 'react-redux';
 import { getEmptyPrivateRoom } from '../services/roomService';
-import { getLoggedinUser } from '../store/actions/userActions';
+// import { getLoggedinUser } from '../store/actions/userActions';
 
 import back from '../assets/imgs/back.png';
-import { socketService } from '../services/socketService';
+// import { socketService } from '../services/socketService';
 
 export const PrivateRoom = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export const PrivateRoom = () => {
 
   const _PrivateChat = useMemo(
     () => <PrivateChat topics={topics} />,
-    [currChatMsgs]
+    [currChatMsgs, topics]
   );
 
   // const removeRoomAndBack =()=>{

@@ -32,6 +32,7 @@ export const Rooms = memo(() => {
   } = useSelector((state) => state.roomModule);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  //eslint-disable-next-line
   const [usersInRoom, setUsersInRoom] = useState(0);
   const [viewType, setViewType] = useState('blocks');
   const [showReturnUpBtn, setShowReturnUpBtn] = useState(false);

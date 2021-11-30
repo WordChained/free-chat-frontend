@@ -49,10 +49,12 @@ export const ImageShare = ({ setImageShareState, addImg }) => {
     console.log('addingunsplash');
     addUnsplashImg(query);
     return () => {};
+    //eslint-disable-next-line
   }, [query]);
 
   useEffect(() => {
     img.src = imageToSend;
+    //eslint-disable-next-line
   }, [imageToSend]);
 
   const onSubmit = (data) => {
