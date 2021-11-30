@@ -14,7 +14,10 @@ import {
 
 import { RoomList } from '../cmps/RoomList';
 import { CreateRoom } from '../cmps/CreateRoom';
-import { getLoggedinUser } from '../store/actions/userActions';
+import {
+  changeUserRoomsType,
+  getLoggedinUser,
+} from '../store/actions/userActions';
 import { socketService } from '../services/socketService';
 
 //icons
@@ -30,11 +33,12 @@ export const Rooms = memo(() => {
     // usersInCurrRoom,
     currRoom,
   } = useSelector((state) => state.roomModule);
+  const { roomsViewType } = useSelector((state) => state.userModule);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   //eslint-disable-next-line
   const [usersInRoom, setUsersInRoom] = useState(0);
-  const [viewType, setViewType] = useState('blocks');
+  const [viewType, setViewType] = useState(roomsViewType);
   const [showReturnUpBtn, setShowReturnUpBtn] = useState(false);
   const [showRoomCreation, setShowRoomCreation] = useState(false);
 
@@ -86,6 +90,11 @@ export const Rooms = memo(() => {
     { value: 'love', label: 'Love' },
     { value: 'art', label: 'Art' },
   ];
+
+  const changeViewType = (type) => {
+    setViewType(type);
+    dispatch(changeUserRoomsType(type));
+  };
 
   if (!rooms)
     return (
@@ -141,13 +150,13 @@ export const Rooms = memo(() => {
         <div className="btns">
           <button
             className={viewType === 'table' ? 'used' : ''}
-            onClick={() => setViewType('table')}
+            onClick={() => changeViewType('table')}
           >
             <img src={tableIcon} alt="table-icon" />
           </button>
           <button
             className={viewType === 'blocks' ? 'used' : ''}
-            onClick={() => setViewType('blocks')}
+            onClick={() => changeViewType('blocks')}
           >
             <img src={blocksIcon} alt="blocks-icon" />
           </button>

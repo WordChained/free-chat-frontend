@@ -1,10 +1,11 @@
 .general-user-msg {
   transition: all 0.7s ease-in-out;
-  position: absolute;
+  position: fixed;
   display: flex;
   background-color: rgba(255, 255, 255, 0.795);
   border: solid 1px;
   border-radius: 10px;
+  padding: 5px;
   width: 300px;
   height: 100px;
   //   top: 40px;
@@ -18,6 +19,6 @@
   justify-content: center;
   color: black;
   &.show {
-    top: 40px;
+    top: 63px;
   }
 }

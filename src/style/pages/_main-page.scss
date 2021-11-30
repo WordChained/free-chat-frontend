@@ -116,16 +116,13 @@ $primary-color: rgb(73, 73, 73);
 @media (max-width: 600px) {
   .App {
     background-image: url('../../assets//background/mountains.png');
-    height: 91vh;
+    height: 86vh;
     width: 100vw;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     padding: 2px !important;
-    &.ready {
-      height: 88.3vh;
-    }
   }
   // html *:hover {
   //   all: unset !important;

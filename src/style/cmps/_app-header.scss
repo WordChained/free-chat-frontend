@@ -118,6 +118,7 @@
   .app-header .main-nav .user-links {
     &.guest {
       .reg-btns {
+        flex-direction: column;
         border: none;
         align-self: center;
       }

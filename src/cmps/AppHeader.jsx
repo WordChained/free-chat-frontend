@@ -131,7 +131,7 @@ export const AppHeader = () => {
                 {!loggedInUser && (
                   <span onClick={() => setShowLogin(true)}>Login</span>
                 )}
-                {!loggedInUser && '|'}
+                {!loggedInUser && width > 600 && '|'}
                 {!loggedInUser && (
                   <span onClick={() => setShowSignup(true)}>Signup</span>
                 )}

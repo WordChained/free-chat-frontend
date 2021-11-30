@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   //
   wrongCreds: null,
   isRegisteredUser: false,
-  ready: false
+  ready: false,
+  roomsViewType: 'blocks'
 }
 
 //loggedInUser:{
@@ -84,6 +85,11 @@ export function userReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         loggedInUser: action.user
+      }
+    case 'CHANGE_VIEW_TYPE':
+      return {
+        ...state,
+        roomsViewType: action.viewType
       }
 
     default:

@@ -9,9 +9,14 @@ import add from '../assets/imgs/add.png';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrRoom, remove, query } from '../store/actions/roomActions';
-import { update, getUserById } from '../store/actions/userActions';
+import {
+  update,
+  getUserById,
+  getLoggedinUser,
+} from '../store/actions/userActions';
 
 import { socketService } from '../services/socketService';
+import { eventBusService } from '../services/eventBusService';
 
 export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   const dispatch = useDispatch();
@@ -30,7 +35,13 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
     socketService.emit('check-num-of-users', room._id);
   };
 
-  const toggleToLiked = () => {
+  const toggleToLiked = async () => {
+    if ((await getLoggedinUser().userName) === 'guest') {
+      eventBusService.emit({
+        msg: 'Only Registered users can add rooms to their favourites',
+      });
+      return;
+    }
     if (user.likedRooms.includes(room._id)) {
       user.likedRooms = user.likedRooms.filter((r) => r !== room._id);
       dispatch(update(user));

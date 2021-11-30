@@ -52,6 +52,11 @@ export const getUserById = (userId) => {
 export const remove = (userId) => {
     return storageService.remove('user', userId)
 }
+export const changeUserRoomsType = (viewType) => {
+    return dispatch => {
+        dispatch({ type: 'CHANGE_VIEW_TYPE', viewType })
+    }
+}
 
 export const update = (user) => {
     return async dispatch => {

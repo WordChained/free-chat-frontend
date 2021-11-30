@@ -10,14 +10,19 @@ import add from '../assets/imgs/add.png';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrRoom, remove, query } from '../store/actions/roomActions';
-import { update, getUserById } from '../store/actions/userActions';
+import {
+  update,
+  getUserById,
+  getLoggedinUser,
+} from '../store/actions/userActions';
 
 import { socketService } from '../services/socketService';
+import { eventBusService } from '../services/eventBusService';
 export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
   const editRoom = () => {
+    if (room.owner._id !== user._id) return;
     exit(true);
     getRoomId(room._id);
     dispatch(query());
@@ -31,6 +36,13 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   };
 
   const toggleToLiked = () => {
+    if (user.userName === 'guest') {
+      console.log('guest user');
+      eventBusService.emit('userMsg', {
+        msg: 'Only Registered users can perform actions on rooms',
+      });
+      return;
+    }
     if (user.likedRooms.includes(room._id)) {
       user.likedRooms = user.likedRooms.filter((r) => r !== room._id);
       dispatch(update(user));
@@ -44,6 +56,7 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   };
 
   const removeRoomBtn = () => {
+    if (room.owner._id !== user._id) return;
     const confirms = window.confirm(
       `Are you sure you want to remove the room ${room.name} and all it's content?`
     );
@@ -90,7 +103,9 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
         )}
       </span>
       <div className="actions">
-        <img src={edit} alt="edit-btn" onClick={editRoom} />
+        {room.owner._id === user._id && (
+          <img src={edit} alt="edit-btn" onClick={editRoom} />
+        )}
         <img
           onClick={toggleToLiked}
           className={user.likedRooms.includes(room._id) ? 'liked' : ''}
