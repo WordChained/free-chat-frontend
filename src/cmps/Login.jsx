@@ -40,7 +40,7 @@ export const Login = ({ close, onSignupLink }) => {
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (wrongCreds) {
-      setError('Wrong Password or eMail');
+      setError('Wrong Password or Email');
     }
   }, [wrongCreds]);
 
@@ -90,7 +90,7 @@ export const Login = ({ close, onSignupLink }) => {
           <input className="log-btn" type="submit" value="Get chatting!" />
         </form>
         {/* <button>Google</button> */}
-        {error && <div>*{error}</div>}
+        {error && <span className="error-msg">*{error}</span>}
         <p>
           not a member yet?{' '}
           <span className="link" onClick={onSignupLink}>

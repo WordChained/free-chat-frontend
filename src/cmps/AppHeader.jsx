@@ -18,7 +18,7 @@ import { logout } from '../store/actions/userActions';
 import { useDispatch } from 'react-redux';
 
 //icons &imgs:
-import logo from '../assets/imgs/chat-logo.png';
+import logo from '../assets/logo/simple-logo.png';
 
 export const AppHeader = () => {
   function useWindowSize() {

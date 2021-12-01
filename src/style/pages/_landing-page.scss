@@ -1,6 +1,13 @@
 .landing-page {
   display: flex;
   flex-direction: column;
+  .greeting .logo {
+    position: absolute;
+    height: 370px;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%);
+  }
   .enter-as-guest {
     display: flex;
     background: rgb(229, 108, 9);
@@ -38,6 +45,8 @@
 
 @media (max-width: 600px) {
   .landing-page .enter-as-guest {
+    width: 98vw;
     bottom: -25px;
+    padding: 5px;
   }
 }

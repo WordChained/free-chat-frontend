@@ -28,8 +28,8 @@
     .msg-edit-options {
       position: absolute;
       display: flex;
-      right: 40%;
-      top: -40px;
+      right: 10%;
+      top: -43px;
       // background-color: black;
       width: max-content;
       padding: 1px 5px 1px 7px;
@@ -38,7 +38,7 @@
       align-items: center;
       gap: 4px;
       border: 1px solid rgb(214, 214, 214);
-      background-color: rgba(255, 255, 255, 0.589);
+      background-color: rgba(255, 255, 255, 0.685);
       border-radius: 3em;
       img {
         cursor: pointer;
@@ -208,6 +208,7 @@
         padding: 2px;
       }
       .msg-edit-options {
+        right: 18%;
         padding: 4px 5px 4px 5px;
         img {
           height: 25px;

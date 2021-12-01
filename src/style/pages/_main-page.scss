@@ -8,7 +8,9 @@ $primary-color: rgb(73, 73, 73);
   top: 30%;
   transform: translate(-50%, -30%);
   .main-header {
-    text-decoration: underline;
+    position: absolute;
+    height: 280px;
+    top: -25vh;
   }
   form {
     display: flex;
@@ -131,6 +133,10 @@ $primary-color: rgb(73, 73, 73);
     margin-top: 60px;
     width: 100%;
     align-items: center;
+    .main-header {
+      height: 200px;
+      top: -30vh;
+    }
     form {
       min-width: max-content;
     }

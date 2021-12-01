@@ -34,9 +34,9 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
 
   const starMessage = () => {
     if (currUser.sex === 'guest') {
-      //add to userMsg
-      alert('Only registered users can like and star messages');
-      //   console.log('Only registered users can like and star messages');
+      eventBusService.emit('userMsg', {
+        msg: 'Only registered users can like and star messages',
+      });
       return;
     }
     if (msg.star.includes(currUser._id)) {
@@ -51,9 +51,9 @@ export const MsgEditOptions = ({ msg, currUser, isLiked, isStarred, room }) => {
   };
   const likeMessage = () => {
     if (currUser.sex === 'guest') {
-      //add to userMsg
-      alert('Only registered users can like and star messages');
-      //   console.log('Only registered users can like and star messages');
+      eventBusService.emit('userMsg', {
+        msg: 'Only registered users can like and star messages',
+      });
       return;
     }
     if (msg.likes.includes(currUser._id)) {

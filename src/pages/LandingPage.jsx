@@ -6,6 +6,7 @@ import { Signup } from '../cmps/Signup';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from '../store/actions/userActions';
+import logo from '../assets/logo/logo_transparent.png';
 export const LandingPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,12 +33,13 @@ export const LandingPage = () => {
   return (
     <div className="landing-page">
       <div className="greeting">
-        <h1>Welcome to FreeChat!</h1>
+        {/* <h1>Welcome to FreeChat!</h1> */}
+        <img className="logo" src={logo} />
       </div>
       {showSignup && <Signup close={closeSignup} onLoginLink={onLoginLink} />}
       {showLogin && <Login close={closeLogin} onSignupLink={onSignupLink} />}
       <div className="enter-as-guest">
-        <p>Or Start chatting as a guest</p>
+        <p>Or Start Chatting As a Guest</p>
         <button onClick={enterAsGuest}>Let's Go!</button>
       </div>
     </div>
