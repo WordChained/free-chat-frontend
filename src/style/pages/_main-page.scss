@@ -12,6 +12,8 @@ $primary-color: rgb(73, 73, 73);
     height: 280px;
     top: -25vh;
   }
+  .search-form {
+  }
   form {
     display: flex;
     flex-direction: column;
@@ -69,7 +71,7 @@ $primary-color: rgb(73, 73, 73);
       margin-top: 10px;
       font-size: 1rem;
       text-align: start;
-      width: 90vw;
+      width: 100%;
       align-self: center;
     }
     .css-1s2u09g-control {
