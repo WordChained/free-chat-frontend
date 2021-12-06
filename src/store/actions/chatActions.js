@@ -1,6 +1,8 @@
 import { eventBusService } from '../../services/eventBusService.js';
 import { httpService } from '../../services/httpService.js';
 import { getLoggedinUser } from './userActions.js';
+
+
 export const addMsg = (roomId, msg, uid, name, isEdit, star, likes, ticket) => {
     //maybe add a way to edit msg.
     return async dispatch => {
@@ -8,11 +10,6 @@ export const addMsg = (roomId, msg, uid, name, isEdit, star, likes, ticket) => {
             const currUser = await getLoggedinUser()
             if (currUser._id === uid) {
                 const room = await httpService.post(`room/chat/${roomId}`, { msg, uid, name, isEdit, star, likes, ticket })
-                // const newMsg = room.msgs[room.msgs.length - 1]
-                // if (room.msgs.find(m => m.id === msg.id)) {
-                //     console.log('theres a double');
-                //     return
-                // }
                 dispatch({ type: 'ADD_MSG', msg: room.msgs[room.msgs.length - 1] })
 
             }

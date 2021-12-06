@@ -1,26 +1,9 @@
-import { storageService } from '../../services/async-storage.service'
 import { eventBusService } from '../../services/eventBusService'
 import { httpService } from '../../services/httpService'
-// import { socketService } from '../../services/socketService'
 import { makeId } from '../../services/utilService'
 
 // const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 // var gWatchedUser = null;
-
-
-
-//For chat sender ids. these dont belong in userActions!
-// export const saveUserId = (userId) => {
-//     sessionStorage.setItem('userId', JSON.stringify(userId))
-// }
-
-// export const getUserId = () => {
-//     const userId = sessionStorage.getItem('userId');
-//     if (userId) {
-//         return JSON.parse(userId);
-//     }
-//     return null;
-// }
 
 // window.userService = userService
 
@@ -49,9 +32,9 @@ export const getUserById = (userId) => {
     }
 }
 
-export const remove = (userId) => {
-    return storageService.remove('user', userId)
-}
+// export const remove = (userId) => {
+//     return storageService.remove('user', userId)
+// }
 export const changeUserRoomsType = (viewType) => {
     return dispatch => {
         dispatch({ type: 'CHANGE_VIEW_TYPE', viewType })

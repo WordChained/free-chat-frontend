@@ -2,9 +2,6 @@ import io from 'socket.io-client'
 
 
 const baseUrl = (process.env.NODE_ENV === 'production') ? '//free-chat-1.herokuapp.com' : '//localhost:3030'
-//free-chat-frontend.herokuapp.com
-// "homepage": "https://free-chat-1.herokuapp.com",
-// "homepage": "https://free-chat-frontend.herokuapp.com",
 export const socketService = createSocketService()
 
 
@@ -24,15 +21,10 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
-            // console.log('emit', socket);
-            // console.log('callbacks', socket._callbacks);
             socket.emit(eventName, data)
-            // socket.on(eventName, data)
         },
         once(eventName, data) {
-            // console.log('emit', socket);
             socket.once(eventName, data)
-            // socket.on(eventName, data)
         },
         // broadcast() {
         //     socket.broadcast(eventName, data)

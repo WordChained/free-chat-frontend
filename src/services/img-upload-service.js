@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+//cloudinary-service
 // AXIOS
 export const uploadImg = async (file) => {
   // Defining our variables
