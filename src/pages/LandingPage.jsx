@@ -4,12 +4,12 @@ import { Login } from '../cmps/Login';
 import { Signup } from '../cmps/Signup';
 
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../store/actions/userActions';
 import logo from '../assets/logo/logo_transparent.png';
 export const LandingPage = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onLoginLink = () => {
     setShowLogin(true);
@@ -28,7 +28,7 @@ export const LandingPage = () => {
 
   const enterAsGuest = () => {
     dispatch(login({}, true));
-    history.replace('/');
+    navigate('/', { replace: true });
   };
   return (
     <div className="landing-page">

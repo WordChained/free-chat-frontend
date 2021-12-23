@@ -3,7 +3,7 @@ import { useState, useLayoutEffect, Fragment } from 'react';
 import {
   Link,
   NavLink,
-  useHistory,
+  useNavigate,
   // useParams,
   // useLocation,
   // useRouteMatch,
@@ -34,7 +34,7 @@ export const AppHeader = () => {
     return size;
   }
   const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [showSignup, setShowSignup] = useState(false);
@@ -64,7 +64,7 @@ export const AppHeader = () => {
 
   const onLogout = () => {
     dispatch(logout());
-    history.push('/:landing-page');
+    navigate('/:landing-page');
   };
   return (
     <Fragment>

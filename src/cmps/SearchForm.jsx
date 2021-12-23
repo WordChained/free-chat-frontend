@@ -4,14 +4,14 @@ import React from 'react';
 import CreatableSelect from 'react-select/creatable';
 // import makeAnimated from 'react-select/animated';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { socketService } from '../services/socketService';
 import { useDispatch } from 'react-redux';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { getEmptyPrivateRoom } from '../services/roomService';
 // import { getLoggedinUser } from '../store/actions/userActions';
 export const SearchForm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const options = [
@@ -57,7 +57,7 @@ export const SearchForm = () => {
     //   uid: getLoggedinUser()._id,
     //   topics: topicsToSocket,
     // });
-    history.push('/free-chat');
+    navigate('/free-chat');
   };
 
   return (

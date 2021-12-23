@@ -6,7 +6,7 @@ import { signup } from '../store/actions/userActions';
 import closedEye from '../assets/imgs/closed-eye.png';
 import openEye from '../assets/imgs/open-eye.png';
 import { useRef } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const Signup = ({ close, onLoginLink }) => {
   const {
@@ -14,7 +14,7 @@ export const Signup = ({ close, onLoginLink }) => {
     handleSubmit,
     // getValues
   } = useForm();
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
   const { loggedInUser, isUser } = useSelector((state) => state.userModule);
@@ -43,7 +43,7 @@ export const Signup = ({ close, onLoginLink }) => {
       // console.log('data', data);
       setPasswordMatch(true);
       setError('');
-      history.replace('/');
+      navigate('/', { replace: true });
       dispatch(signup(data));
       // dispatch(login(data.email, data.password));
       if (isUser) {

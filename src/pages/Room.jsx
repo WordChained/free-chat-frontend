@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   // setCurrRoom,
   setCurrRoomById,
@@ -19,7 +19,7 @@ export const Room = memo(() => {
   const { currRoom, currChatMsgs } = useSelector((state) => state.roomModule);
   const _Chat = useMemo(() => <Chat />, [currChatMsgs]);
   const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -49,7 +49,7 @@ export const Room = memo(() => {
   }, []);
 
   const exitRoom = () => {
-    history.goBack();
+    navigate(-1);
     socketService.emit('leave room', {
       topic: currRoom._id,
       uid: getLoggedinUser()._id,

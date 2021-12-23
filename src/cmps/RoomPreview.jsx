@@ -6,7 +6,7 @@ import edit from '../assets/imgs/edit-large.png';
 import removeIcon from '../assets/imgs/remove.png';
 import add from '../assets/imgs/add.png';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrRoom, remove, query } from '../store/actions/roomActions';
 import {
@@ -20,7 +20,7 @@ import { eventBusService } from '../services/eventBusService';
 
 export const RoomPreview = ({ room, user, exit, getRoomId }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const editRoom = () => {
     exit(true);
@@ -30,7 +30,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
 
   const routeToRoom = () => {
     dispatch(setCurrRoom(room));
-    history.push(`${room._id}`);
+    navigate(`${room._id}`);
     socketService.emit('room topic', { topic: room._id, uid: user._id });
     socketService.emit('check-num-of-users', room._id);
   };

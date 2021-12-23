@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { PrivateChat } from '../cmps/PrivatChat';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setCurrPrivateRoom } from '../store/actions/roomActions';
 import { useDispatch } from 'react-redux';
 import { getEmptyPrivateRoom } from '../services/roomService';
@@ -13,7 +13,7 @@ export const PrivateRoom = () => {
   const { currPrivateRoom, currChatMsgs } = useSelector(
     (state) => state.roomModule
   );
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.log('currPrivateRoom:', currPrivateRoom);
 
   const topics = JSON.parse(sessionStorage.getItem('topics'));
@@ -60,7 +60,7 @@ export const PrivateRoom = () => {
             })}
           </div>
         </div>
-        <button className="back-btn" onClick={() => history.push('/')}>
+        <button className="back-btn" onClick={() => navigate('/')}>
           <img src={back} alt="back" />
         </button>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { login } from '../store/actions/userActions';
 
@@ -11,7 +11,7 @@ import openEye from '../assets/imgs/open-eye.png';
 export const Login = ({ close, onSignupLink }) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useParams();
   const { loggedInUser, wrongCreds } = useSelector((state) => state.userModule);
 
@@ -24,7 +24,7 @@ export const Login = ({ close, onSignupLink }) => {
     const userName = data.userName.trim();
     const password = data.password.trim();
 
-    history.replace('/');
+    navigate('/', { replace: true });
     dispatch(login({ userName, password }));
     // close();
   };

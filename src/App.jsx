@@ -1,9 +1,9 @@
 import './style/App.scss';
 import {
   HashRouter as Router,
-  Redirect,
+  Navigate,
   Route,
-  Switch,
+  Routes,
 } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,31 +48,16 @@ function App() {
     //eslint-disable-next-line
   }, []);
 
-  const PrivateRoute = (props) => {
-    // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
-    return getLoggedinUser() ? (
-      <Route path={props.path} component={props.component} />
-    ) : (
-      <Redirect to="/:landingPage" />
-    );
+  const PrivateRoute = ({ children }) => {
+    return getLoggedinUser() ? children : <Navigate to="/:landingPage" />;
   };
 
-  const NoneUsers = (props) => {
-    // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
-    return !getLoggedinUser() ? (
-      <Route path={props.path} component={props.component} />
-    ) : (
-      <Redirect to="/" />
-    );
+  const NoneUsers = ({ children }) => {
+    return !getLoggedinUser() ? children : <Navigate to="/" />;
   };
 
-  const RegisteredUserRoute = (props) => {
-    // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
-    return loggedInUser ? (
-      <Route path={props.path} component={props.component} />
-    ) : (
-      <Redirect to="/:landingPage" />
-    );
+  const RegisteredUserRoute = (children) => {
+    return loggedInUser ? children : <Navigate to="/:landingPage" />;
   };
 
   if (!ready)
@@ -89,20 +74,69 @@ function App() {
         <main className="App">
           <UserMsg />
           <div className="background-image"></div>
-          <Switch>
-            {/* <PrivateRoute path="/rooms/:id" component={Room} /> */}
-            <PrivateRoute path="/rooms/:id" component={Room} />
-            <RegisteredUserRoute
-              path="/myProfile/:id"
-              component={UserProfile}
+          <Routes>
+            {/* <PrivateRoute path="/rooms/:id" element={<Room/>} /> */}
+            <Route
+              path="/rooms/:id"
+              element={
+                <PrivateRoute>
+                  <Room />
+                </PrivateRoute>
+              }
             />
-            <PrivateRoute path="/rooms" component={Rooms} />
-            <PrivateRoute path="/about" component={About} />
-            <PrivateRoute path="/free-chat" component={PrivateRoom} />
-            <NoneUsers path="/:landingPage" component={LandingPage} />
+            <Route
+              path="/myProfile/:id"
+              element={
+                <RegisteredUserRoute>
+                  <UserProfile />
+                </RegisteredUserRoute>
+              }
+            />
+            <Route
+              path="/rooms"
+              element={
+                <PrivateRoute>
+                  <Rooms />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <PrivateRoute>
+                  <About />
+                </PrivateRoute>
+              }
+            />
 
-            <PrivateRoute path="/" component={MainPage} />
-          </Switch>
+            <Route
+              path="/free-chat"
+              element={
+                <PrivateRoute>
+                  <PrivateRoom />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/:landingPage"
+              element={
+                <NoneUsers>
+                  <LandingPage />
+                </NoneUsers>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <MainPage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* <Route path="*"/> */}
+            {/* this is a not-found page */}
+          </Routes>
         </main>
         {(loggedInUser || guestUser) && <AppFooter />}
       </Router>
