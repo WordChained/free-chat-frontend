@@ -84,7 +84,7 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
 
   return (
     <Fragment>
-      <td className="room-name" onClick={routeToRoom}>
+      <td className='room-name' onClick={routeToRoom}>
         <Link to={`rooms/${room._id}`}>{room.name}</Link>
       </td>
       <td>{room.topic}</td>
@@ -101,20 +101,20 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
         )}
       </td>
       <td>{room.type}</td>
-      <td className="actions">
-        <img src={edit} alt="edit-btn" onClick={editRoom} />
+      <td className='actions'>
+        <img src={edit} alt='edit-btn' onClick={editRoom} />
         <img
           onClick={toggleToLiked}
           className={user.likedRooms.includes(room._id) ? 'liked' : ''}
           src={add}
-          alt="add-btn"
+          alt='add-btn'
         />
-        {room.owner._id === user._id && (
+        {room.owner && room.owner._id === user._id && (
           <img
             onClick={removeRoomBtn}
-            className="remove"
+            className='remove'
             src={removeIcon}
-            alt="remove-btn"
+            alt='remove-btn'
           />
         )}
       </td>

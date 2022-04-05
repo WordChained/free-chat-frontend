@@ -23,6 +23,7 @@ import send from '../assets/imgs/send.png';
 import edit from '../assets/imgs/edit.png';
 import like2 from '../assets/imgs/like2.png';
 import more from '../assets/imgs/more.png';
+import downArrow from '../assets/imgs/down-arrow.png';
 
 //user images
 import maleUser from '../assets/imgs/tattoo-male.png';
@@ -45,6 +46,8 @@ import { BackgroundPicker } from './BackgroundPicker';
 import { makeIdWithLetters } from '../services/utilService';
 import { ImageShare } from './ImageShare';
 import { GiphyComponent } from './GiphyComponent';
+// import { SingleMsg } from './SingleMsg';
+// import { TypingLine } from './TypingLine';
 
 export const Chat = memo(() => {
   function useWindowSize() {
@@ -265,8 +268,6 @@ export const Chat = memo(() => {
   const onSubmit = (data) => {
     console.log('data', data);
     if (!data['msg-input']) return;
-    // console.log('currUser is the sender...', currUser);
-    // console.log('msg-input:', data['msg-input']);
     const nameToAttatch = currUser.sex === 'guest' ? 'fullName' : 'userName';
     const newMsg = {
       text: data['msg-input'],
@@ -343,8 +344,6 @@ export const Chat = memo(() => {
                     );
                   }}
                 </Palette>
-                {/* {isLikedByCurrUser(msg.id)}
-              {isStarredByCurrUser(msg.id)} */}
                 {currMsgToEdit.edit && currMsgToEdit.msgId === msg.id && (
                   <MsgEditOptions
                     msg={msg}
@@ -354,6 +353,13 @@ export const Chat = memo(() => {
                     room={currRoom}
                   />
                 )}
+                {/* <SingleMsg
+                  msg={msg}
+                  currUser={currUser}
+                  changeEditState={changeEditState}
+                  currMsgToEdit={currMsgToEdit}
+                  sent={sent}
+                /> */}
                 <div
                   key={msg.id}
                   name="single-msg-txt"
@@ -414,6 +420,10 @@ export const Chat = memo(() => {
             <AlwaysScrollToBottom msgs={currChatMsgs.length} />
           </div>
         )}
+        {/* <div className="go-down">
+          <img src={downArrow} alt="down-arrow" />
+        </div> */}
+        {/* <TypingLine/> */}
         <div className={`typing-line ${moreOptions ? 'more' : ''}`}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <textarea

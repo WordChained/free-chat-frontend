@@ -49,7 +49,7 @@ export const Room = memo(() => {
   }, []);
 
   const exitRoom = () => {
-    navigate(-1);
+    navigate('/rooms');
     socketService.emit('leave room', {
       topic: currRoom._id,
       uid: getLoggedinUser()._id,

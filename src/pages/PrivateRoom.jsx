@@ -60,7 +60,7 @@ export const PrivateRoom = () => {
             })}
           </div>
         </div>
-        <button className="back-btn" onClick={() => navigate('/')}>
+        <button className="back-btn" onClick={() => navigate('/rooms')}>
           <img src={back} alt="back" />
         </button>
       </div>

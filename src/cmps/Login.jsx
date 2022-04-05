@@ -51,9 +51,9 @@ export const Login = ({ close, onSignupLink }) => {
   };
   return (
     <section className={params.landingPage ? '' : 'screen-cover'}>
-      <div className="login-container">
+      <div className='login-container'>
         {!params.landingPage && (
-          <button onClick={close} className="close">
+          <button onClick={close} className='close'>
             X
           </button>
         )}
@@ -62,38 +62,38 @@ export const Login = ({ close, onSignupLink }) => {
           <input
             className={wrongCreds ? 'wrong' : ''}
             {...register('userName')}
-            type="text"
-            name="userName"
-            placeholder="Enter your userName"
+            type='text'
+            name='userName'
+            placeholder='Enter your userName'
             required
           />
-          <div className="passwords-container">
+          <div className='passwords-container'>
             <input
               className={wrongCreds ? 'password-input wrong' : 'password-input'}
               {...register('password')}
               type={show ? 'text' : 'password'}
-              name="password"
+              name='password'
               required
-              placeholder="Enter your password"
+              placeholder='Enter your password'
             />
             <button
-              className="show-password-btn"
+              className='show-password-btn'
               onClick={(ev) => toggleShowPassword(ev)}
             >
               <img
-                className="show-password"
+                className='show-password'
                 src={show ? openEye : closedEye}
-                alt="closedEye"
+                alt='closedEye'
               />
             </button>
           </div>
-          <input className="log-btn" type="submit" value="Get chatting!" />
+          <input className='log-btn' type='submit' value='Get chatting!' />
         </form>
         {/* <button>Google</button> */}
-        {error && <span className="error-msg">*{error}</span>}
+        {error && <span className='error-msg'>*{error}</span>}
         <p>
           not a member yet?{' '}
-          <span className="link" onClick={onSignupLink}>
+          <span className='link signup-link' onClick={onSignupLink}>
             signup!
           </span>
         </p>

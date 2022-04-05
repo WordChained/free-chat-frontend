@@ -23,7 +23,7 @@
   .dropdown {
     display: flex;
     flex-direction: column;
-    bottom: -138px;
+    bottom: -91px;
     right: 0;
     background-color: white;
     position: absolute;
@@ -31,11 +31,13 @@
     width: 130px;
     border-radius: 5px;
     overflow: hidden;
+    .item:not(:last-child) {
+      border-bottom: 1px solid rgb(114, 114, 114);
+    }
     .item {
       padding: 10px;
       align-self: flex-start;
       width: 100%;
-      border-bottom: 1px solid rgb(114, 114, 114);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -56,6 +58,9 @@
         color: red;
         &:hover {
           background-color: rgba(211, 97, 116, 0.596);
+          img {
+            filter: invert(1);
+          }
         }
       }
     }

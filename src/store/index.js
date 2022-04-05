@@ -13,7 +13,6 @@ const rootReducer = combineReducers({
   roomModule: roomReducer,
   chatModule: chatReducer,
   userModule: userReducer,
-
 })
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))

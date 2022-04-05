@@ -11,7 +11,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   // background-color: rgb(32, 179, 142);
-  background-color: rgba(0, 0, 0, 0.472);
+  background-color: rgba(87, 87, 87, 0.733);
   box-shadow: 0px 0px 1px 2px white;
   // height: 400px;
   padding: 10px;
@@ -61,6 +61,9 @@
       font-size: 1.1rem;
       cursor: pointer;
       padding: 15px;
+      &:hover {
+        background-color: lighten(rgb(33, 117, 196), 5%);
+      }
     }
   }
   .close {
@@ -80,11 +83,18 @@
     font-size: 1.1rem;
   }
   .link {
+    animation: pulse 2s infinite linear;
     text-decoration: underline;
     &:hover {
       color: gold;
       cursor: pointer;
     }
+  }
+}
+
+@keyframes pulse {
+  50% {
+    color: gold;
   }
 }
 

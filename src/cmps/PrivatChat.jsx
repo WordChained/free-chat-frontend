@@ -21,6 +21,8 @@ import smiley from '../assets/imgs/smiley.png';
 import thinking from '../assets/imgs/thinking.png';
 import send from '../assets/imgs/send.png';
 import more from '../assets/imgs/more.png';
+import downArrow from '../assets/imgs/down-arrow.png';
+
 // import edit from '../assets/imgs/edit.png';
 // import like2 from '../assets/imgs/like2.png';
 
@@ -374,6 +376,9 @@ export const PrivateChat = memo(({ topics }) => {
             <AlwaysScrollToBottom msgs={currChatMsgs.length} />
           </div>
         )}
+        {/* <div className="go-down">
+          <img src={downArrow} alt="down-arrow" />
+        </div> */}
         <div className={`typing-line ${moreOptions ? 'more' : ''}`}>
           <button className="new-stranger-btn" onClick={lookForNewChat}>
             New Stranger

@@ -29,11 +29,13 @@ export const ImageShare = ({ setImageShareState, addImg }) => {
   };
 
   const handleImg = async (ev) => {
+    console.log('happens');
     console.log('ev.target.files[0]:', ev.target.files[0]);
     if (!ev.target.files[0]) return;
     const file = ev.target.files[0];
     const fileType = file['type'];
-    if (!fileType.includes('image')) return;
+    if (!fileType.includes('image') && !fileType.includes('video')) return;
+    console.log('passed');
     try {
       setImgLoaded(false);
       const savedImg = await uploadImg(file);

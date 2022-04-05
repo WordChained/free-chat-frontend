@@ -87,6 +87,22 @@
     background-color: rgb(110, 107, 107);
     height: 65vh;
     max-height: 65vh;
+    .go-down {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      background-color: rgba(255, 255, 255, 0.356);
+      bottom: 20%;
+      left: 3%;
+      padding: 3px;
+      border-radius: 100%;
+      filter: blur(1px);
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.692);
+        filter: blur(0);
+      }
+    }
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;

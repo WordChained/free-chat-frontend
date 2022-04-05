@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, useLayoutEffect, Fragment } from 'react';
 import {
   Link,
@@ -68,15 +67,15 @@ export const AppHeader = () => {
   };
   return (
     <Fragment>
-      <section className="app-header">
-        <nav className="main-nav">
-          <Link to="/">
-            <img className="logo" src={logo} alt="logo" />
+      <section className='app-header'>
+        <nav className='main-nav'>
+          <Link to='/'>
+            <img className='logo' src={logo} alt='logo' />
           </Link>
           {width > 700 && <span> | </span>}
           {width < 600 && (
             <div
-              id="nav-icon3"
+              id='nav-icon3'
               className={`${openNav ? 'open' : ''}`}
               onClick={() => setOpenNav(!openNav)}
             >
@@ -88,30 +87,33 @@ export const AppHeader = () => {
           )}
           <div className={`nav-btns ${openNav ? 'open' : 'close'}`}>
             <NavLink
-              className="home-link"
-              activeClassName="active-nav"
+              className={(navData) =>
+                navData.isActive ? 'home-link  active-nav' : 'home-link'
+              }
               exact
-              to="/"
+              to='/'
               onClick={() => setOpenNav(false)}
             >
               Home
             </NavLink>
             {width > 700 && <span> | </span>}
             <NavLink
-              className="about-link"
-              activeClassName="active-nav"
+              className={(navData) =>
+                navData.isActive ? 'about-link active-nav' : 'about-link'
+              }
               exact
-              to="/about"
+              to='/about'
               onClick={() => setOpenNav(false)}
             >
               About
             </NavLink>
             {width > 700 && <span> | </span>}
             <NavLink
-              className="Rooms-link"
-              activeClassName="active-nav"
+              className={(navData) =>
+                navData.isActive ? 'home-link active-nav' : 'home-link'
+              }
               exact
-              to="/rooms"
+              to='/rooms'
               onClick={() => setOpenNav(false)}
             >
               Rooms
@@ -127,7 +129,7 @@ export const AppHeader = () => {
                   logout={onLogout}
                 />
               )}
-              <div className="reg-btns">
+              <div className='reg-btns'>
                 {!loggedInUser && (
                   <span onClick={() => setShowLogin(true)}>Login</span>
                 )}

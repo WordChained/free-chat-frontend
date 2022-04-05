@@ -88,8 +88,8 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
   };
 
   return (
-    <div className="block-preview">
-      <img src={room.imgUrl ? room.imgUrl : defaultRoomImg} alt="room-img" />
+    <div className='block-preview'>
+      <img src={room.imgUrl ? room.imgUrl : defaultRoomImg} alt='room-img' />
       <span onClick={routeToRoom}>
         Name: <Link to={`rooms/${room._id}`}>{room.name}</Link>
       </span>
@@ -102,22 +102,22 @@ export const RoomBlockPreview = ({ room, user, exit, getRoomId }) => {
           <span>Nothing yet!</span>
         )}
       </span>
-      <div className="actions">
-        {room.owner._id === user._id && (
-          <img src={edit} alt="edit-btn" onClick={editRoom} />
+      <div className='actions'>
+        {room.owner && room.owner._id === user._id && (
+          <img src={edit} alt='edit-btn' onClick={editRoom} />
         )}
         <img
           onClick={toggleToLiked}
           className={user.likedRooms.includes(room._id) ? 'liked' : ''}
           src={add}
-          alt="add-btn"
+          alt='add-btn'
         />
-        {room.owner._id === user._id && (
+        {room.owner && room.owner._id === user._id && (
           <img
             onClick={removeRoomBtn}
-            className="remove"
+            className='remove'
             src={removeIcon}
-            alt="remove-btn"
+            alt='remove-btn'
           />
         )}
       </div>
