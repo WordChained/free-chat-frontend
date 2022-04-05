@@ -3,9 +3,12 @@
   flex-direction: column;
   min-height: 90vh;
   z-index: 1;
-  & > *:not(.icons) {
+  .about-text {
     background-color: rgba(0, 0, 0, 0.479);
+    margin-top: 10px;
+    border-radius: 5px;
   }
+
   h2 {
     color: white;
   }
@@ -21,7 +24,7 @@
     padding: 40px;
     justify-content: space-around;
     img {
-      width: 40vw;
+      width: 20vw;
       max-width: 256px;
     }
   }
