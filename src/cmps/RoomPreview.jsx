@@ -102,7 +102,9 @@ export const RoomPreview = ({ room, user, exit, getRoomId }) => {
       </td>
       <td>{room.type}</td>
       <td className='actions'>
-        <img src={edit} alt='edit-btn' onClick={editRoom} />
+        {room.owner && room.owner._id === user._id && (
+          <img src={edit} alt='edit-btn' onClick={editRoom} />
+        )}
         <img
           onClick={toggleToLiked}
           className={user.likedRooms.includes(room._id) ? 'liked' : ''}

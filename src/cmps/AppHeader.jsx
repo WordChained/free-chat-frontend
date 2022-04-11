@@ -90,7 +90,7 @@ export const AppHeader = () => {
               className={(navData) =>
                 navData.isActive ? 'home-link  active-nav' : 'home-link'
               }
-              exact
+              exact='true'
               to='/'
               onClick={() => setOpenNav(false)}
             >
@@ -101,7 +101,7 @@ export const AppHeader = () => {
               className={(navData) =>
                 navData.isActive ? 'about-link active-nav' : 'about-link'
               }
-              exact
+              exact='true'
               to='/about'
               onClick={() => setOpenNav(false)}
             >
@@ -112,7 +112,7 @@ export const AppHeader = () => {
               className={(navData) =>
                 navData.isActive ? 'home-link active-nav' : 'home-link'
               }
-              exact
+              exact='true'
               to='/rooms'
               onClick={() => setOpenNav(false)}
             >

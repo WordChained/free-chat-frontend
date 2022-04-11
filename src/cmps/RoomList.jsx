@@ -16,7 +16,7 @@ export const RoomList = ({ rooms, viewType }) => {
   return (
     <div className={`rooms-list ${viewType}`}>
       {viewType === 'table' && (
-        <table border="1">
+        <table>
           <thead>
             <tr>
               <th>Name</th>
@@ -45,7 +45,7 @@ export const RoomList = ({ rooms, viewType }) => {
         </table>
       )}
       {viewType === 'blocks' && (
-        <div className="blocks-list">
+        <div className='blocks-list'>
           {rooms.map((room) => {
             return (
               <RoomBlockPreview

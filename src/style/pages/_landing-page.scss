@@ -9,6 +9,7 @@
     transform: translate(-50%);
     filter: drop-shadow(2px 2px 1rem crimson);
   }
+
   .enter-as-guest {
     display: flex;
     background: rgb(229, 108, 9);
@@ -43,11 +44,36 @@
     }
   }
 }
+@media (max-height: 900px) {
+  .landing-page .greeting .logo {
+    height: 250px;
+    top: -7%;
+  }
+}
+@media (max-height: 700px) and (min-width: 900px) {
+  .landing-page .greeting .logo {
+    top: -10%;
+  }
+  .landing-page .enter-as-guest {
+    bottom: -25px;
+  }
+}
 
 @media (max-width: 600px) {
   .landing-page .enter-as-guest {
     width: 98vw;
     bottom: -25px;
     padding: 5px;
+  }
+  .landing-page .greeting .logo {
+    top: -10%;
+  }
+}
+@media (max-height: 530px) and (max-width: 800px) {
+  .landing-page .enter-as-guest {
+    bottom: -30px;
+  }
+  .landing-page .greeting .logo {
+    display: none;
   }
 }
